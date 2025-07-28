@@ -1,0 +1,26 @@
+{
+  "name": "FoodMood - Nutrición por Estado de Ánimo",
+  "short_name": "FoodMood",
+  "description": "Recomendaciones de comida personalizadas según tu estado de ánimo y objetivos de peso",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#10B981",
+  "theme_color": "#10B981",
+  "orientation": "portrait-primary",
+  "categories": ["health", "lifestyle", "food"],
+  "lang": "es",
+  "icons": [
+    {
+      "src": "https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixlib=rb-4.0.3&auto=format&fit=crop&w=192&h=192",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixlib=rb-4.0.3&auto=format&fit=crop&w=512&h=512",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
