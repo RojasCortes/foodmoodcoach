@@ -1,5 +1,7 @@
 import { Home, Weight, History, User } from "lucide-react";
 import { useLocation } from "wouter";
+import { t } from '@/lib/i18n';
+import { useLanguage } from '@/hooks/use-language';
 
 interface BottomNavigationProps {
   currentScreen: string;
@@ -7,12 +9,13 @@ interface BottomNavigationProps {
 
 export default function BottomNavigation({ currentScreen }: BottomNavigationProps) {
   const [, navigate] = useLocation();
+  const { language } = useLanguage();
 
   const navItems = [
-    { id: 'dashboard', label: 'Inicio', icon: Home, path: '/' },
-    { id: 'weightTracker', label: 'Peso', icon: Weight, path: '/weight-tracker' },
-    { id: 'history', label: 'Historial', icon: History, path: '/history' },
-    { id: 'profile', label: 'Perfil', icon: User, path: '/profile' }
+    { id: 'dashboard', label: t('home'), icon: Home, path: '/' },
+    { id: 'weightTracker', label: t('weightTracker'), icon: Weight, path: '/weight-tracker' },
+    { id: 'history', label: t('history'), icon: History, path: '/history' },
+    { id: 'profile', label: t('profile'), icon: User, path: '/profile' }
   ];
 
   return (

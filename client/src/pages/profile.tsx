@@ -13,38 +13,37 @@ import { getUserFromLocalStorage, saveUserToLocalStorage, clearUserFromLocalStor
 import { useLocation } from 'wouter';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
+import { t, languages } from '@/lib/i18n';
+import { useLanguage } from '@/hooks/use-language';
 import type { Goal, Mood } from '@shared/schema';
 
-const languages = [
-  { code: 'es', name: 'Español' },
-  { code: 'en', name: 'English' },
-  { code: 'fr', name: 'Français' },
-  { code: 'de', name: 'Deutsch' },
-  { code: 'it', name: 'Italiano' },
-  { code: 'pt', name: 'Português' }
-];
 
-const goals: { value: Goal; title: string; description: string }[] = [
-  { value: 'lose', title: 'Perder peso', description: 'Estar más delgado/a' },
-  { value: 'maintain', title: 'Mantener peso', description: 'Peso normal y saludable' },
-  { value: 'gain', title: 'Subir de peso', description: 'Aumentar masa corporal' }
-];
 
-const moods: { value: Mood; emoji: string; label: string }[] = [
-  { value: 'happy', emoji: '😊', label: 'Feliz' },
-  { value: 'sad', emoji: '😔', label: 'Triste' },
-  { value: 'energetic', emoji: '⚡', label: 'Enérgico' },
-  { value: 'calm', emoji: '😌', label: 'Tranquilo' },
-  { value: 'stressed', emoji: '😰', label: 'Estresado' },
-  { value: 'neutral', emoji: '😐', label: 'Normal' }
-];
+function getGoals() {
+  return [
+    { value: 'lose' as Goal, title: t('loseWeight'), description: t('loseWeightDesc') },
+    { value: 'maintain' as Goal, title: t('maintainWeight'), description: t('maintainWeightDesc') },
+    { value: 'gain' as Goal, title: t('gainWeight'), description: t('gainWeightDesc') }
+  ];
+}
+
+function getMoods() {
+  return [
+    { value: 'happy' as Mood, emoji: '😊', label: t('happy') },
+    { value: 'sad' as Mood, emoji: '😔', label: t('sad') },
+    { value: 'energetic' as Mood, emoji: '⚡', label: t('energetic') },
+    { value: 'calm' as Mood, emoji: '😌', label: t('calm') },
+    { value: 'stressed' as Mood, emoji: '😰', label: t('stressed') },
+    { value: 'neutral' as Mood, emoji: '😐', label: t('neutral') }
+  ];
+}
 
 export default function Profile() {
   const [, navigate] = useLocation();
   const { toast } = useToast();
+  const { language, changeLanguage } = useLanguage();
   const [user, setUser] = useState(getUserFromLocalStorage());
   const [isEditing, setIsEditing] = useState(false);
-  const [language, setLanguage] = useState(localStorage.getItem('foodmood_language') || 'es');
   const [editForm, setEditForm] = useState({
     name: user?.name || '',
     height: user?.height?.toString() || '',
@@ -52,6 +51,9 @@ export default function Profile() {
     goal: user?.goal || 'maintain' as Goal,
     currentMood: user?.currentMood || 'neutral' as Mood
   });
+  
+  const goals = getGoals();
+  const moods = getMoods();
   
   useEffect(() => {
     if (!user) {
@@ -114,11 +116,10 @@ export default function Profile() {
   };
 
   const handleLanguageChange = (newLanguage: string) => {
-    setLanguage(newLanguage);
-    localStorage.setItem('foodmood_language', newLanguage);
+    changeLanguage(newLanguage as any);
     toast({
-      title: "Idioma cambiado",
-      description: `Idioma cambiado a ${languages.find(l => l.code === newLanguage)?.name}`,
+      title: t('languageChanged'),
+      description: `${t('languageChanged')} ${languages.find(l => l.code === newLanguage)?.name}`,
     });
   };
 
@@ -165,7 +166,7 @@ export default function Profile() {
               <ArrowLeft className="h-5 w-5" />
             </Button>
             <User className="h-6 w-6" />
-            <h1 className="text-xl font-semibold">Perfil</h1>
+            <h1 className="text-xl font-semibold">{t('profile')}</h1>
           </div>
           <Button
             variant="ghost"
@@ -187,14 +188,14 @@ export default function Profile() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <User className="h-5 w-5" />
-                Información Personal
+                {t('personalInformation')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               {isEditing ? (
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="name">Nombre</Label>
+                    <Label htmlFor="name">{t('name')}</Label>
                     <Input
                       id="name"
                       value={editForm.name}
@@ -202,7 +203,7 @@ export default function Profile() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="height">Altura (cm)</Label>
+                    <Label htmlFor="height">{t('height')}</Label>
                     <Input
                       id="height"
                       type="number"
