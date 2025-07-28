@@ -1100,6 +1100,14 @@ export const translations = {
     moodState: '気分状態',
     bmiIndex: 'BMI（体格指数）',
     errorAddingWeight: '体重を追加できませんでした。もう一度お試しください。',
+    
+    // Weight messages that appear in spanish
+    noWeightRecordsYet: 'まだ体重記録がありません。',
+    addFirstRecordMessage: '追跡を開始するために最初の記録を追加してください。',
+    
+    // Missing Japanese translations for Portuguese, Italian, German texts
+    noWeightRecords2: 'まだ体重記録がありません。',
+    addFirstRecordToStart2: '追跡を開始するために最初の記録を追加してください。',
     today: '今日',
     
     // Days of the week

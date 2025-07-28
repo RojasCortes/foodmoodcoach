@@ -1,4 +1,6 @@
 import type { Mood, Goal, MealRecommendation } from "@shared/schema";
+import { getLanguage } from "./i18n";
+import { getTranslatedRecipe } from "./recipe-translations";
 
 interface DailyRecommendations {
   breakfast: MealRecommendation;
@@ -9,29 +11,10 @@ interface DailyRecommendations {
   totalFiber: number;
 }
 
-// Food database with mood and goal-based recommendations
-const foodDatabase = {
+// Recipe keys for mood-based recommendations
+const recipeDatabase = {
   breakfast: {
-    happy: [
-      {
-        name: "Tostada de Aguacate con Huevo",
-        description: "Pan integral, aguacate fresco, huevo pochado y semillas de chía",
-        benefits: "Las grasas saludables del aguacate y las proteínas del huevo mantienen tu energía y buen humor durante la mañana.",
-        calories: 380,
-        protein: 18,
-        fiber: 12,
-        image: "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200"
-      },
-      {
-        name: "Bowl de Yogur con Frutas",
-        description: "Yogur griego, arándanos, plátano, granola casera y miel",
-        benefits: "Los probióticos del yogur y las vitaminas de las frutas refuerzan tu sistema inmune y mantienen tu alegría natural.",
-        calories: 340,
-        protein: 20,
-        fiber: 8,
-        image: "https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200"
-      }
-    ],
+    happy: ['avocado_toast_happy', 'yogurt_bowl_happy'],
     sad: [
       {
         name: "Avena con Chocolate y Nueces",

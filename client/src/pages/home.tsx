@@ -6,7 +6,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { toast } from "@/hooks/use-toast";
 import { getUserFromLocalStorage, updateUserInLocalStorage } from "@/lib/local-storage";
-import { generateDailyRecommendations } from "@/lib/food-recommendations";
+import { generateDailyRecommendations } from "@/lib/food-recommendations-new";
 import MealCard from "@/components/meal-card";
 import BottomNavigation from "@/components/bottom-navigation";
 import AdSpace from "@/components/ad-space";

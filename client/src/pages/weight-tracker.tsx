@@ -222,8 +222,8 @@ export default function WeightTracker() {
                     </div>
                   ) : weightEntries.length === 0 ? (
                     <div className="p-8 text-center text-slate-600">
-                      <p>{t('noWeightRecords')}</p>
-                      <p className="text-sm mt-1">{t('addFirstRecordToStart')}</p>
+                      <p>{t('noWeightRecordsYet')}</p>
+                      <p className="text-sm mt-1">{t('addFirstRecordMessage')}</p>
                     </div>
                   ) : (
                     <div className="divide-y divide-slate-200">
