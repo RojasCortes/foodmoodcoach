@@ -109,13 +109,14 @@ The architecture prioritizes simplicity, type safety, and mobile user experience
 
 ## Recent Changes (January 2025)
 
-### Internationalization System (July 2025)
-- **Complete translation system**: Implemented full i18n support with Spanish, English, and French
+### Internationalization System (July 2025) - Updated
+- **Expanded language support**: Full i18n support with 7 languages (Spanish, English, French, Portuguese, Italian, German, Japanese)
+- **Complete translation coverage**: All UI elements, navigation, forms, and messages are translated across all 7 languages
 - **Dynamic language switching**: Users can change language in Profile settings with immediate effect
-- **Comprehensive translations**: All UI elements, navigation, forms, and messages are translated
 - **Language persistence**: Selected language is saved to localStorage and maintained across sessions
-- **Error handling**: Fixed null/undefined errors in history page recommendations display
-- **Mobile-first approach**: All translations optimized for mobile interface
+- **Fixed hardcoded texts**: Replaced all hardcoded Spanish/English texts with proper translation functions in weight-tracker page
+- **Japanese translation**: Added comprehensive Japanese translations for all interface elements
+- **Mobile-first approach**: All translations optimized for mobile interface across all supported languages
 
 ### Navigation and Layout Improvements
 - **Full-width responsive design**: Removed container width limits to use entire browser width

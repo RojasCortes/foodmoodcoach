@@ -135,7 +135,7 @@ export default function WeightTracker() {
                 </div>
                 
                 <div className="text-center text-sm text-slate-600">
-                  <span>Hoy, {new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}</span>
+                  <span>{t('today')}, {new Date().toLocaleTimeString(language === 'es' ? 'es-ES' : 'en-US', { hour: '2-digit', minute: '2-digit' })}</span>
                 </div>
                 
                 <div className="flex space-x-3">
@@ -145,14 +145,14 @@ export default function WeightTracker() {
                     className="flex-1"
                     onClick={() => setIsAddWeightOpen(false)}
                   >
-                    Cancelar
+{t('cancel')}
                   </Button>
                   <Button 
                     type="submit" 
                     className="flex-1"
                     disabled={addWeightMutation.isPending}
                   >
-                    {addWeightMutation.isPending ? 'Guardando...' : 'Guardar'}
+{addWeightMutation.isPending ? t('saving') : t('save')}
                   </Button>
                 </div>
               </form>
@@ -166,7 +166,7 @@ export default function WeightTracker() {
           <div className="lg:col-span-2 xl:col-span-3">
             <Card>
               <CardContent className="p-6">
-                <h3 className="font-semibold text-slate-800 mb-4">Progreso últimos 7 días</h3>
+                <h3 className="font-semibold text-slate-800 mb-4">{t('progressLast7Days')}</h3>
                 
                 <div className="h-80 lg:h-96">
                   <WeightChart entries={weightEntries.slice(0, 7)} />
@@ -175,7 +175,7 @@ export default function WeightTracker() {
                 <div className="grid grid-cols-3 gap-4 mt-6 text-center">
                   <div>
                     <div className="text-lg lg:text-xl font-semibold text-slate-800">{currentWeight.toFixed(1)} kg</div>
-                    <div className="text-sm text-slate-600">Actual</div>
+                    <div className="text-sm text-slate-600">{t('actual')}</div>
                   </div>
                   <div>
                     <div className={`text-lg lg:text-xl font-semibold flex items-center justify-center ${
@@ -186,11 +186,11 @@ export default function WeightTracker() {
                       )}
                       {weightChange > 0 ? '+' : ''}{weightChange.toFixed(1)} kg
                     </div>
-                    <div className="text-sm text-slate-600">Cambio</div>
+                    <div className="text-sm text-slate-600">{t('change')}</div>
                   </div>
                   <div>
                     <div className="text-lg lg:text-xl font-semibold text-secondary">{goalRemaining.toFixed(1)} kg</div>
-                    <div className="text-sm text-slate-600">Restante</div>
+                    <div className="text-sm text-slate-600">{t('remaining')}</div>
                   </div>
                 </div>
               </CardContent>
@@ -202,7 +202,7 @@ export default function WeightTracker() {
             <Card className="h-fit max-h-96 lg:max-h-[500px] overflow-hidden">
               <CardContent className="p-0">
                 <div className="p-4 border-b border-slate-200 bg-slate-50">
-                  <h3 className="font-semibold text-slate-800">Registros Recientes</h3>
+                  <h3 className="font-semibold text-slate-800">{t('recentRecords')}</h3>
                 </div>
                 
                 <div className="overflow-y-auto max-h-72 lg:max-h-96">
@@ -222,8 +222,8 @@ export default function WeightTracker() {
                     </div>
                   ) : weightEntries.length === 0 ? (
                     <div className="p-8 text-center text-slate-600">
-                      <p>No hay registros de peso aún.</p>
-                      <p className="text-sm mt-1">Agrega tu primer registro para comenzar el seguimiento.</p>
+                      <p>{t('noWeightRecords')}</p>
+                      <p className="text-sm mt-1">{t('addFirstRecordToStart')}</p>
                     </div>
                   ) : (
                     <div className="divide-y divide-slate-200">

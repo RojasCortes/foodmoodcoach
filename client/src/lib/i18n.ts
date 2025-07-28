@@ -152,6 +152,25 @@ export const translations = {
     deleteAccountDesc: 'Elimina permanentemente tu cuenta y todos los datos',
     areYouSure: '¿Estás seguro?',
     deleteAccountWarning: 'Esta acción no se puede deshacer. Se eliminarán permanentemente tu cuenta y todos los datos asociados.',
+    
+    // Weight tracking translations
+    addWeight: 'Agregar Peso',
+    weightTracking: 'Control de Peso',
+    progressLast7Days: 'Progreso últimos 7 días',
+    recentRecords: 'Registros Recientes',
+    noWeightData: 'Sin datos de peso',
+    addFirstRecord: 'Agrega tu primer registro para comenzar el seguimiento.',
+    noWeightRecords: 'No hay registros de peso aún.',
+    addFirstRecordToStart: 'Agrega tu primer registro para comenzar el seguimiento.',
+    actual: 'Actual',
+    change: 'Cambio',
+    remaining: 'Restante',
+    initialWeight: 'Peso Inicial',
+    objective: 'Objetivo',
+    moodState: 'Estado de Ánimo',
+    bmiIndex: 'IMC (Índice de Masa Corporal)',
+    errorAddingWeight: 'No se pudo agregar el peso. Inténtalo de nuevo.',
+    today: 'Hoy',
   },
   
   en: {
@@ -220,6 +239,25 @@ export const translations = {
     deleteAccountDesc: 'Permanently delete your account and all data',
     areYouSure: 'Are you sure?',
     deleteAccountWarning: 'This action cannot be undone. This will permanently delete your account and all associated data.',
+    
+    // Weight tracking translations
+    addWeight: 'Add Weight',
+    weightTracking: 'Weight Tracking',
+    progressLast7Days: 'Progress last 7 days',
+    recentRecords: 'Recent Records',
+    noWeightData: 'No weight data',
+    addFirstRecord: 'Add your first record to start tracking.',
+    noWeightRecords: 'No weight records yet.',
+    addFirstRecordToStart: 'Add your first record to start tracking.',
+    actual: 'Current',
+    change: 'Change',
+    remaining: 'Remaining',
+    initialWeight: 'Initial Weight',
+    objective: 'Objective',
+    moodState: 'Mood State',
+    bmiIndex: 'BMI (Body Mass Index)',
+    errorAddingWeight: 'Could not add weight. Please try again.',
+    today: 'Today',
     
     // Goals
     loseWeight: 'Lose weight',
@@ -453,6 +491,25 @@ export const translations = {
     deleteAccountDesc: 'Supprime définitivement votre compte et toutes les données',
     areYouSure: 'Êtes-vous sûr?',
     deleteAccountWarning: 'Cette action ne peut pas être annulée. Cela supprimera définitivement votre compte et toutes les données associées.',
+    
+    // Weight tracking translations
+    addWeight: 'Ajouter Poids',
+    weightTracking: 'Suivi du Poids',
+    progressLast7Days: 'Progrès 7 derniers jours',
+    recentRecords: 'Enregistrements Récents',
+    noWeightData: 'Aucune donnée de poids',
+    addFirstRecord: 'Ajoutez votre premier enregistrement pour commencer le suivi.',
+    noWeightRecords: 'Aucun enregistrement de poids pour le moment.',
+    addFirstRecordToStart: 'Ajoutez votre premier enregistrement pour commencer le suivi.',
+    actual: 'Actuel',
+    change: 'Changement',
+    remaining: 'Restant',
+    initialWeight: 'Poids Initial',
+    objective: 'Objectif',
+    moodState: 'État d\'humeur',
+    bmiIndex: 'IMC (Indice de Masse Corporelle)',
+    errorAddingWeight: 'Impossible d\'ajouter le poids. Veuillez réessayer.',
+    today: 'Aujourd\'hui',
   },
 
   // Portuguese translations
@@ -557,6 +614,24 @@ export const translations = {
     weightAdded: 'Peso adicionado com sucesso!',
     errorCreatingProfile: 'Não foi possível criar seu perfil. Tente novamente.',
     errorUpdatingProfile: 'Não foi possível atualizar seu perfil. Tente novamente.',
+    
+    // Weight tracking
+    addWeight: 'Adicionar Peso',
+    weightTracking: 'Controle de Peso',
+    progressLast7Days: 'Progresso últimos 7 dias',
+    recentRecords: 'Registros Recentes',
+    noWeightData: 'Sem dados de peso',
+    addFirstRecord: 'Adicione seu primeiro registro para começar o acompanhamento.',
+    noWeightRecords: 'Não há registros de peso ainda.',
+    addFirstRecordToStart: 'Adicione seu primeiro registro para começar o acompanhamento.',
+    actual: 'Atual',
+    change: 'Mudança',
+    remaining: 'Restante',
+    initialWeight: 'Peso Inicial',
+    objective: 'Objetivo',
+    moodState: 'Estado de Humor',
+    bmiIndex: 'IMC (Índice de Massa Corporal)',
+    errorAddingWeight: 'Não foi possível adicionar o peso. Tente novamente.',
   },
 
   // Italian translations
@@ -661,6 +736,24 @@ export const translations = {
     weightAdded: 'Peso aggiunto con successo!',
     errorCreatingProfile: 'Impossibile creare il tuo profilo. Riprova.',
     errorUpdatingProfile: 'Impossibile aggiornare il tuo profilo. Riprova.',
+    
+    // Weight tracking
+    addWeight: 'Aggiungi Peso',
+    weightTracking: 'Controllo Peso',
+    progressLast7Days: 'Progresso ultimi 7 giorni',
+    recentRecords: 'Registri Recenti',
+    noWeightData: 'Nessun dato peso',
+    addFirstRecord: 'Aggiungi il tuo primo registro per iniziare il monitoraggio.',
+    noWeightRecords: 'Non ci sono ancora registri di peso.',
+    addFirstRecordToStart: 'Aggiungi il tuo primo registro per iniziare il monitoraggio.',
+    actual: 'Attuale',
+    change: 'Cambio',
+    remaining: 'Rimanente',
+    initialWeight: 'Peso Iniziale',
+    objective: 'Obiettivo',
+    moodState: 'Stato d\'Umore',
+    bmiIndex: 'IMC (Indice di Massa Corporea)',
+    errorAddingWeight: 'Impossibile aggiungere il peso. Riprova.',
   },
 
   // German translations
@@ -765,6 +858,24 @@ export const translations = {
     weightAdded: 'Gewicht erfolgreich hinzugefügt!',
     errorCreatingProfile: 'Ihr Profil konnte nicht erstellt werden. Versuchen Sie es erneut.',
     errorUpdatingProfile: 'Ihr Profil konnte nicht aktualisiert werden. Versuchen Sie es erneut.',
+    
+    // Weight tracking
+    addWeight: 'Gewicht Hinzufügen',
+    weightTracking: 'Gewichtskontrolle',
+    progressLast7Days: 'Fortschritt letzte 7 Tage',
+    recentRecords: 'Aktuelle Aufzeichnungen',
+    noWeightData: 'Keine Gewichtsdaten',
+    addFirstRecord: 'Fügen Sie Ihren ersten Eintrag hinzu, um die Verfolgung zu beginnen.',
+    noWeightRecords: 'Es gibt noch keine Gewichtsaufzeichnungen.',
+    addFirstRecordToStart: 'Fügen Sie Ihren ersten Eintrag hinzu, um die Verfolgung zu beginnen.',
+    actual: 'Aktuell',
+    change: 'Änderung',
+    remaining: 'Verbleibend',
+    initialWeight: 'Anfangsgewicht',
+    objective: 'Ziel',
+    moodState: 'Stimmungszustand',
+    bmiIndex: 'BMI (Body-Mass-Index)',
+    errorAddingWeight: 'Gewicht konnte nicht hinzugefügt werden. Versuchen Sie es erneut.',
   },
 
   // Japanese translations
@@ -869,6 +980,24 @@ export const translations = {
     weightAdded: '体重が正常に追加されました！',
     errorCreatingProfile: 'プロフィールを作成できませんでした。もう一度お試しください。',
     errorUpdatingProfile: 'プロフィールを更新できませんでした。もう一度お試しください。',
+    
+    // Weight tracking
+    addWeight: '体重を追加',
+    weightTracking: '体重管理', 
+    progressLast7Days: '過去7日間の進捗',
+    recentRecords: '最近の記録',
+    noWeightData: '体重データなし',
+    addFirstRecord: '追跡を開始するために最初の記録を追加してください。',
+    noWeightRecords: 'まだ体重記録がありません。',
+    addFirstRecordToStart: '追跡を開始するために最初の記録を追加してください。',
+    actual: '現在',
+    change: '変化',
+    remaining: '残り',
+    initialWeight: '初期体重',
+    objective: '目標',
+    moodState: '気分状態',
+    bmiIndex: 'BMI（体格指数）',
+    errorAddingWeight: '体重を追加できませんでした。もう一度お試しください。',
   }
 };
 
