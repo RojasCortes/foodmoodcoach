@@ -126,6 +126,32 @@ export const translations = {
     errorUpdatingMenu: 'No se pudo actualizar el menú. Inténtalo de nuevo.',
     creatingProfile: 'Creando perfil...',
     startHealthyJourney: 'Comenzar mi viaje saludable',
+    
+    // Additional home and profile translations
+    noRecommendations: 'No hay recomendaciones disponibles para hoy.',
+    generateRecommendations: 'Generar Recomendaciones',
+    dailySummary: 'Resumen del día',
+    calories: 'Calorías',
+    protein: 'Proteína',
+    fiber: 'Fibra',
+    
+    // BMI categories
+    underweight: 'Bajo peso',
+    normalWeight: 'Peso normal',
+    overweight: 'Sobrepeso',
+    obesity: 'Obesidad',
+    
+    // Settings
+    language: 'Idioma',
+    changeLanguage: 'Cambiar idioma de la aplicación',
+    moodState: 'Estado de Ánimo',
+    
+    // Delete account
+    dangerZone: 'Zona de Peligro',
+    deleteAccount: 'Eliminar Cuenta',
+    deleteAccountDesc: 'Elimina permanentemente tu cuenta y todos los datos',
+    areYouSure: '¿Estás seguro?',
+    deleteAccountWarning: 'Esta acción no se puede deshacer. Se eliminarán permanentemente tu cuenta y todos los datos asociados.',
   },
   
   en: {
@@ -168,6 +194,32 @@ export const translations = {
     errorUpdatingMenu: 'Could not update menu. Please try again.',
     creatingProfile: 'Creating profile...',
     startHealthyJourney: 'Start my healthy journey',
+    
+    // Additional home and profile translations
+    noRecommendations: 'No recommendations available for today.',
+    generateRecommendations: 'Generate Recommendations',
+    dailySummary: 'Daily Summary',
+    calories: 'Calories',
+    protein: 'Protein',
+    fiber: 'Fiber',
+    
+    // BMI categories
+    underweight: 'Underweight',
+    normalWeight: 'Normal weight',
+    overweight: 'Overweight',
+    obesity: 'Obesity',
+    
+    // Settings
+    language: 'Language',
+    changeLanguage: 'Change application language',
+    moodState: 'Mood State',
+    
+    // Delete account
+    dangerZone: 'Danger Zone',
+    deleteAccount: 'Delete Account',
+    deleteAccountDesc: 'Permanently delete your account and all data',
+    areYouSure: 'Are you sure?',
+    deleteAccountWarning: 'This action cannot be undone. This will permanently delete your account and all associated data.',
     
     // Goals
     loseWeight: 'Lose weight',
@@ -375,6 +427,32 @@ export const translations = {
     errorUpdatingMenu: 'Impossible de mettre à jour le menu. Veuillez réessayer.',
     creatingProfile: 'Création du profil...',
     startHealthyJourney: 'Commencer mon voyage santé',
+    
+    // Additional home and profile translations
+    noRecommendations: 'Aucune recommandation disponible pour aujourd\'hui.',
+    generateRecommendations: 'Générer des Recommandations',
+    dailySummary: 'Résumé de la journée',
+    calories: 'Calories',
+    protein: 'Protéine',
+    fiber: 'Fibre',
+    
+    // BMI categories
+    underweight: 'Poids insuffisant',
+    normalWeight: 'Poids normal',
+    overweight: 'Surpoids',
+    obesity: 'Obésité',
+    
+    // Settings
+    language: 'Langue',
+    changeLanguage: 'Changer la langue de l\'application',
+    moodState: 'État d\'humeur',
+    
+    // Delete account
+    dangerZone: 'Zone de Danger',
+    deleteAccount: 'Supprimer le Compte',
+    deleteAccountDesc: 'Supprime définitivement votre compte et toutes les données',
+    areYouSure: 'Êtes-vous sûr?',
+    deleteAccountWarning: 'Cette action ne peut pas être annulée. Cela supprimera définitivement votre compte et toutes les données associées.',
   }
 };
 

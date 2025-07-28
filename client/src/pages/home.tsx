@@ -216,12 +216,12 @@ export default function Home() {
                 ) : (
                   <Card>
                     <CardContent className="p-6 text-center">
-                      <p className="text-slate-600">No hay recomendaciones disponibles para hoy.</p>
+                      <p className="text-slate-600">{t('noRecommendations')}</p>
                       <Button 
                         onClick={() => generateRecommendationsMutation.mutate()}
                         className="mt-4"
                       >
-                        Generar Recomendaciones
+{t('generateRecommendations')}
                       </Button>
                     </CardContent>
                   </Card>
@@ -238,19 +238,19 @@ export default function Home() {
               {todayRecommendations && (
                 <Card>
                   <CardContent className="p-4">
-                    <h4 className="font-semibold text-slate-800 mb-3">Resumen del día</h4>
+                    <h4 className="font-semibold text-slate-800 mb-3">{t('dailySummary')}</h4>
                     <div className="space-y-4">
                       <div className="text-center">
                         <div className="text-2xl font-bold text-primary">{todayRecommendations.totalCalories || 0}</div>
-                        <div className="text-sm text-slate-600">Calorías</div>
+                        <div className="text-sm text-slate-600">{t('calories')}</div>
                       </div>
                       <div className="text-center">
                         <div className="text-2xl font-bold text-secondary">{todayRecommendations.totalProtein ? todayRecommendations.totalProtein.toFixed(0) : 0}g</div>
-                        <div className="text-sm text-slate-600">Proteína</div>
+                        <div className="text-sm text-slate-600">{t('protein')}</div>
                       </div>
                       <div className="text-center">
                         <div className="text-2xl font-bold text-purple-600">{todayRecommendations.totalFiber ? todayRecommendations.totalFiber.toFixed(0) : 0}g</div>
-                        <div className="text-sm text-slate-600">Fibra</div>
+                        <div className="text-sm text-slate-600">{t('fiber')}</div>
                       </div>
                     </div>
                   </CardContent>

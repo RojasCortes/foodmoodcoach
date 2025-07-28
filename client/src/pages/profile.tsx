@@ -71,14 +71,14 @@ export default function Profile() {
       setUser(updatedUser);
       setIsEditing(false);
       toast({
-        title: "Perfil actualizado",
-        description: "Tus cambios se han guardado exitosamente.",
+        title: t('profileUpdated'),
+        description: t('profileUpdated'),
       });
     },
     onError: () => {
       toast({
-        title: "Error",
-        description: "No se pudo actualizar tu perfil. Inténtalo de nuevo.",
+        title: t('error'),
+        description: t('errorUpdatingProfile'),
         variant: "destructive",
       });
     }
@@ -90,8 +90,8 @@ export default function Profile() {
     
     if (height < 100 || height > 250) {
       toast({
-        title: "Altura inválida",
-        description: "La altura debe estar entre 100 y 250 cm.",
+        title: t('error'),
+        description: t('invalidHeight'),
         variant: "destructive",
       });
       return;
@@ -99,8 +99,8 @@ export default function Profile() {
 
     if (goalWeight < 30 || goalWeight > 300) {
       toast({
-        title: "Peso meta inválido",
-        description: "El peso meta debe estar entre 30 y 300 kg.",
+        title: t('error'),
+        description: t('invalidWeight'),
         variant: "destructive",
       });
       return;
@@ -126,8 +126,8 @@ export default function Profile() {
   const handleDeleteAccount = () => {
     clearUserFromLocalStorage();
     toast({
-      title: "Cuenta eliminada",
-      description: "Tu cuenta ha sido eliminada exitosamente.",
+      title: t('accountDeleted'),
+      description: t('accountDeleted'),
     });
     navigate('/');
     window.location.reload();
@@ -140,10 +140,10 @@ export default function Profile() {
   };
 
   const getBMICategory = (bmi: number) => {
-    if (bmi < 18.5) return { category: 'Bajo peso', color: 'text-blue-600' };
-    if (bmi < 25) return { category: 'Peso normal', color: 'text-green-600' };
-    if (bmi < 30) return { category: 'Sobrepeso', color: 'text-yellow-600' };
-    return { category: 'Obesidad', color: 'text-red-600' };
+    if (bmi < 18.5) return { category: t('underweight'), color: 'text-blue-600' };
+    if (bmi < 25) return { category: t('normalWeight'), color: 'text-green-600' };
+    if (bmi < 30) return { category: t('overweight'), color: 'text-yellow-600' };
+    return { category: t('obesity'), color: 'text-red-600' };
   };
 
   if (!user) return null;
@@ -339,8 +339,8 @@ export default function Profile() {
                 <div className="flex items-center gap-3">
                   <Globe className="h-5 w-5 text-primary" />
                   <div>
-                    <div className="font-medium">Idioma</div>
-                    <div className="text-sm text-slate-600">Cambiar idioma de la aplicación</div>
+                    <div className="font-medium">{t('language')}</div>
+                    <div className="text-sm text-slate-600">{t('changeLanguage')}</div>
                   </div>
                 </div>
                 <Select value={language} onValueChange={handleLanguageChange}>
@@ -364,32 +364,32 @@ export default function Profile() {
             <CardHeader>
               <CardTitle className="text-red-600 flex items-center gap-2">
                 <Trash2 className="h-5 w-5" />
-                Zona de Peligro
+{t('dangerZone')}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex items-center justify-between">
                 <div>
-                  <div className="font-medium text-red-600">Eliminar Cuenta</div>
-                  <div className="text-sm text-slate-600">Elimina permanentemente tu cuenta y todos los datos</div>
+                  <div className="font-medium text-red-600">{t('deleteAccount')}</div>
+                  <div className="text-sm text-slate-600">{t('deleteAccountDesc')}</div>
                 </div>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
                     <Button variant="destructive" size="sm">
-                      Eliminar Cuenta
+                      {t('deleteAccount')}
                     </Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
-                      <AlertDialogTitle>¿Estás seguro?</AlertDialogTitle>
+                      <AlertDialogTitle>{t('areYouSure')}</AlertDialogTitle>
                       <AlertDialogDescription>
-                        Esta acción no se puede deshacer. Se eliminarán permanentemente tu cuenta y todos los datos asociados.
+                        {t('deleteAccountWarning')}
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                      <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                      <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
                       <AlertDialogAction onClick={handleDeleteAccount} className="bg-red-600 hover:bg-red-700">
-                        Eliminar Cuenta
+                        {t('deleteAccount')}
                       </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
