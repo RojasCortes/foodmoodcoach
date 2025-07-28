@@ -16,7 +16,7 @@ export default function BottomNavigation({ currentScreen }: BottomNavigationProp
   ];
 
   return (
-    <nav className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-2xl xl:max-w-4xl 2xl:max-w-6xl bg-white border-t border-slate-200">
+    <nav className="fixed bottom-0 left-0 w-full bg-white border-t border-slate-200">
       <div className="grid grid-cols-4 py-2">
         {navItems.map((item) => {
           const Icon = item.icon;

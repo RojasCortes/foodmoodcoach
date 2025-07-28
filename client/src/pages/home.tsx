@@ -105,8 +105,8 @@ export default function Home() {
       </header>
 
       {/* Content */}
-      <div className="p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 pb-20">
-        <div className="max-w-6xl mx-auto space-y-6">
+      <div className="p-4 sm:p-6 md:p-8 lg:p-12 xl:p-16 pb-20">
+        <div className="w-full space-y-6">
         
           {/* User Status Card */}
           <div className="bg-gradient-to-r from-primary to-green-600 rounded-xl p-4 sm:p-6 text-white">
@@ -138,8 +138,8 @@ export default function Home() {
           </div>
 
           {/* Layout for larger screens */}
-          <div className="lg:grid lg:grid-cols-2 xl:grid-cols-3 lg:gap-8 space-y-6 lg:space-y-0">
-            <div className="lg:col-span-2 xl:col-span-2 space-y-6">
+          <div className="lg:grid lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 lg:gap-8 space-y-6 lg:space-y-0">
+            <div className="lg:col-span-2 xl:col-span-3 2xl:col-span-4 space-y-6">
               {/* Daily Menu Section */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between">

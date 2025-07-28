@@ -101,8 +101,8 @@ export default function WeightTracker() {
       </header>
 
       {/* Content */}
-      <div className="p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 pb-20">
-        <div className="max-w-6xl mx-auto space-y-6">
+      <div className="p-4 sm:p-6 md:p-8 lg:p-12 xl:p-16 pb-20">
+        <div className="w-full space-y-6">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-bold text-slate-800">Seguimiento de Peso</h2>
           <Dialog open={isAddWeightOpen} onOpenChange={setIsAddWeightOpen}>
@@ -157,96 +157,109 @@ export default function WeightTracker() {
           </Dialog>
         </div>
 
-        {/* Weight Chart */}
-        <Card>
-          <CardContent className="p-6">
-            <h3 className="font-semibold text-slate-800 mb-4">Progreso últimos 7 días</h3>
-            
-            <WeightChart entries={weightEntries.slice(0, 7)} />
-            
-            <div className="grid grid-cols-3 gap-4 mt-4 text-center">
-              <div>
-                <div className="text-lg font-semibold text-slate-800">{currentWeight.toFixed(1)} kg</div>
-                <div className="text-sm text-slate-600">Actual</div>
-              </div>
-              <div>
-                <div className={`text-lg font-semibold flex items-center justify-center ${
-                  weightChange > 0 ? 'text-red-600' : weightChange < 0 ? 'text-green-600' : 'text-slate-600'
-                }`}>
-                  {weightChange !== 0 && (
-                    weightChange > 0 ? <TrendingUp className="h-4 w-4 mr-1" /> : <TrendingDown className="h-4 w-4 mr-1" />
-                  )}
-                  {weightChange > 0 ? '+' : ''}{weightChange.toFixed(1)} kg
+        {/* Layout for larger screens */}
+        <div className="lg:grid lg:grid-cols-3 xl:grid-cols-4 lg:gap-8 space-y-6 lg:space-y-0">
+          {/* Weight Chart - takes more space on larger screens */}
+          <div className="lg:col-span-2 xl:col-span-3">
+            <Card>
+              <CardContent className="p-6">
+                <h3 className="font-semibold text-slate-800 mb-4">Progreso últimos 7 días</h3>
+                
+                <div className="h-80 lg:h-96">
+                  <WeightChart entries={weightEntries.slice(0, 7)} />
                 </div>
-                <div className="text-sm text-slate-600">Cambio</div>
-              </div>
-              <div>
-                <div className="text-lg font-semibold text-secondary">{goalRemaining.toFixed(1)} kg</div>
-                <div className="text-sm text-slate-600">Restante</div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Recent Entries */}
-        <Card>
-          <CardContent className="p-0">
-            <div className="p-4 border-b border-slate-200">
-              <h3 className="font-semibold text-slate-800">Registros Recientes</h3>
-            </div>
-            
-            {isLoading ? (
-              <div className="p-4">
-                <div className="animate-pulse space-y-3">
-                  {[1, 2, 3].map((i) => (
-                    <div key={i} className="flex justify-between items-center">
-                      <div>
-                        <div className="h-4 bg-slate-200 rounded w-16 mb-1"></div>
-                        <div className="h-3 bg-slate-200 rounded w-24"></div>
-                      </div>
-                      <div className="h-4 bg-slate-200 rounded w-12"></div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ) : weightEntries.length === 0 ? (
-              <div className="p-8 text-center text-slate-600">
-                <p>No hay registros de peso aún.</p>
-                <p className="text-sm mt-1">Agrega tu primer registro para comenzar el seguimiento.</p>
-              </div>
-            ) : (
-              <div className="divide-y divide-slate-200">
-                {weightEntries.slice(0, 10).map((entry, index) => {
-                  const previousEntry = weightEntries[index + 1];
-                  const change = previousEntry ? entry.weight - previousEntry.weight : 0;
-                  
-                  return (
-                    <div key={entry.id} className="p-4 flex items-center justify-between">
-                      <div>
-                        <div className="font-medium text-slate-800">{entry.weight.toFixed(1)} kg</div>
-                        <div className="text-sm text-slate-600">
-                          {new Date(entry.recordedAt!).toLocaleDateString('es-ES', {
-                            weekday: 'long',
-                            hour: '2-digit',
-                            minute: '2-digit'
-                          })}
-                        </div>
-                      </div>
-                      {change !== 0 && (
-                        <div className={`text-sm font-medium flex items-center ${
-                          change > 0 ? 'text-red-600' : 'text-green-600'
-                        }`}>
-                          {change > 0 ? <TrendingUp className="h-3 w-3 mr-1" /> : <TrendingDown className="h-3 w-3 mr-1" />}
-                          {change > 0 ? '+' : ''}{change.toFixed(1)} kg
-                        </div>
+                
+                <div className="grid grid-cols-3 gap-4 mt-6 text-center">
+                  <div>
+                    <div className="text-lg lg:text-xl font-semibold text-slate-800">{currentWeight.toFixed(1)} kg</div>
+                    <div className="text-sm text-slate-600">Actual</div>
+                  </div>
+                  <div>
+                    <div className={`text-lg lg:text-xl font-semibold flex items-center justify-center ${
+                      weightChange > 0 ? 'text-red-600' : weightChange < 0 ? 'text-green-600' : 'text-slate-600'
+                    }`}>
+                      {weightChange !== 0 && (
+                        weightChange > 0 ? <TrendingUp className="h-4 w-4 mr-1" /> : <TrendingDown className="h-4 w-4 mr-1" />
                       )}
+                      {weightChange > 0 ? '+' : ''}{weightChange.toFixed(1)} kg
                     </div>
-                  );
-                })}
-              </div>
-            )}
-          </CardContent>
-        </Card>
+                    <div className="text-sm text-slate-600">Cambio</div>
+                  </div>
+                  <div>
+                    <div className="text-lg lg:text-xl font-semibold text-secondary">{goalRemaining.toFixed(1)} kg</div>
+                    <div className="text-sm text-slate-600">Restante</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Recent Entries - sidebar on larger screens */}
+          <div className="lg:col-span-1">
+            <Card className="h-fit max-h-96 lg:max-h-[500px] overflow-hidden">
+              <CardContent className="p-0">
+                <div className="p-4 border-b border-slate-200 bg-slate-50">
+                  <h3 className="font-semibold text-slate-800">Registros Recientes</h3>
+                </div>
+                
+                <div className="overflow-y-auto max-h-72 lg:max-h-96">
+                  {isLoading ? (
+                    <div className="p-4">
+                      <div className="animate-pulse space-y-3">
+                        {[1, 2, 3].map((i) => (
+                          <div key={i} className="flex justify-between items-center">
+                            <div>
+                              <div className="h-4 bg-slate-200 rounded w-16 mb-1"></div>
+                              <div className="h-3 bg-slate-200 rounded w-24"></div>
+                            </div>
+                            <div className="h-4 bg-slate-200 rounded w-12"></div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ) : weightEntries.length === 0 ? (
+                    <div className="p-8 text-center text-slate-600">
+                      <p>No hay registros de peso aún.</p>
+                      <p className="text-sm mt-1">Agrega tu primer registro para comenzar el seguimiento.</p>
+                    </div>
+                  ) : (
+                    <div className="divide-y divide-slate-200">
+                      {weightEntries.slice(0, 10).map((entry, index) => {
+                        const previousEntry = weightEntries[index + 1];
+                        const change = previousEntry ? entry.weight - previousEntry.weight : 0;
+                        
+                        return (
+                          <div key={entry.id} className="p-4 hover:bg-slate-50 transition-colors">
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <div className="font-medium text-slate-800">{entry.weight.toFixed(1)} kg</div>
+                                <div className="text-sm text-slate-600">
+                                  {new Date(entry.recordedAt!).toLocaleDateString('es-ES', {
+                                    weekday: 'short',
+                                    day: 'numeric',
+                                    month: 'short'
+                                  })}
+                                </div>
+                              </div>
+                              {change !== 0 && (
+                                <div className={`text-sm font-medium flex items-center ${
+                                  change > 0 ? 'text-red-600' : 'text-green-600'
+                                }`}>
+                                  {change > 0 ? <TrendingUp className="h-3 w-3 mr-1" /> : <TrendingDown className="h-3 w-3 mr-1" />}
+                                  {change > 0 ? '+' : ''}{change.toFixed(1)}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
 
         {/* Ad Space */}
         <AdSpace size="large" />
