@@ -116,7 +116,7 @@ export default function Home() {
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold">{t('hello')}, {user.name}!</h2>
-                <p className="text-green-100 text-sm sm:text-base lg:text-lg">{t('howDoYouFeelToday')}</p>
+                <p className="text-green-100 text-sm sm:text-base lg:text-lg">{t('howDoYouFeel')}</p>
               </div>
               <div className="text-2xl sm:text-3xl lg:text-4xl">
                 {user.currentMood === 'happy' && '😊'}
@@ -146,7 +146,7 @@ export default function Home() {
               {/* Daily Menu Section */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-xl lg:text-2xl font-bold text-slate-800">{t('todayMenu')}</h3>
+                  <h3 className="text-xl lg:text-2xl font-bold text-slate-800">{t('todaysMenu')}</h3>
                   <Button 
                     variant="ghost" 
                     size="sm" 

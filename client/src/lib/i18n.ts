@@ -171,6 +171,40 @@ export const translations = {
     bmiIndex: 'IMC (Índice de Masa Corporal)',
     errorAddingWeight: 'No se pudo agregar el peso. Inténtalo de nuevo.',
     today: 'Hoy',
+    
+    // Days of the week
+    monday: 'lunes',
+    tuesday: 'martes', 
+    wednesday: 'miércoles',
+    thursday: 'jueves',
+    friday: 'viernes',
+    saturday: 'sábado',
+    sunday: 'domingo',
+    
+    // Months  
+    january: 'enero',
+    february: 'febrero',
+    march: 'marzo', 
+    april: 'abril',
+    may: 'mayo',
+    june: 'junio',
+    july: 'julio',
+    august: 'agosto',
+    september: 'septiembre',
+    october: 'octubre',
+    november: 'noviembre',
+    december: 'diciembre',
+    
+    // Home page
+    todaysMenu: 'Menú de Hoy',
+    menuHistory: 'Historial de Menús',
+    lastDaysRecommendations: 'Últimos 7 días de recomendaciones',
+    noRecommendationsForDay: 'Sin recomendaciones para este día',
+    updateMenu: 'actualizar Menú',
+    howDoYouFeel: '¿Cómo te sientes?',
+    currentWeight: 'Peso Actual',
+    goalWeight: 'Peso Objetivo',
+    dailySummary: 'Resumen diario',
   },
   
   en: {
@@ -258,6 +292,40 @@ export const translations = {
     bmiIndex: 'BMI (Body Mass Index)',
     errorAddingWeight: 'Could not add weight. Please try again.',
     today: 'Today',
+    
+    // Days of the week
+    monday: 'Monday',
+    tuesday: 'Tuesday',
+    wednesday: 'Wednesday', 
+    thursday: 'Thursday',
+    friday: 'Friday',
+    saturday: 'Saturday',
+    sunday: 'Sunday',
+    
+    // Months
+    january: 'January',
+    february: 'February',
+    march: 'March',
+    april: 'April', 
+    may: 'May',
+    june: 'June',
+    july: 'July',
+    august: 'August',
+    september: 'September',
+    october: 'October',
+    november: 'November',
+    december: 'December',
+    
+    // Home page
+    todaysMenu: 'Today\'s Menu',
+    menuHistory: 'Menu History',
+    lastDaysRecommendations: 'Last 7 days of recommendations',
+    noRecommendationsForDay: 'No recommendations for this day',
+    updateMenu: 'Update Menu',
+    howDoYouFeel: 'How do you feel?',
+    currentWeight: 'Current Weight',
+    goalWeight: 'Goal Weight',
+    dailySummary: 'Daily Summary',
     
     // Goals
     loseWeight: 'Lose weight',
@@ -510,6 +578,40 @@ export const translations = {
     bmiIndex: 'IMC (Indice de Masse Corporelle)',
     errorAddingWeight: 'Impossible d\'ajouter le poids. Veuillez réessayer.',
     today: 'Aujourd\'hui',
+    
+    // Days of the week
+    monday: 'lundi',
+    tuesday: 'mardi',
+    wednesday: 'mercredi',
+    thursday: 'jeudi', 
+    friday: 'vendredi',
+    saturday: 'samedi',
+    sunday: 'dimanche',
+    
+    // Months
+    january: 'janvier',
+    february: 'février',
+    march: 'mars',
+    april: 'avril',
+    may: 'mai',
+    june: 'juin', 
+    july: 'juillet',
+    august: 'août',
+    september: 'septembre',
+    october: 'octobre',
+    november: 'novembre',
+    december: 'décembre',
+    
+    // Home page
+    todaysMenu: 'Menu d\'Aujourd\'hui',
+    menuHistory: 'Historique des Menus',
+    lastDaysRecommendations: 'Derniers 7 jours de recommandations',
+    noRecommendationsForDay: 'Aucune recommandation pour ce jour',
+    updateMenu: 'Mettre à Jour le Menu',
+    howDoYouFeel: 'Comment vous sentez-vous?',
+    currentWeight: 'Poids Actuel',
+    goalWeight: 'Poids Objectif',
+    dailySummary: 'Résumé quotidien',
   },
 
   // Portuguese translations
@@ -998,6 +1100,41 @@ export const translations = {
     moodState: '気分状態',
     bmiIndex: 'BMI（体格指数）',
     errorAddingWeight: '体重を追加できませんでした。もう一度お試しください。',
+    today: '今日',
+    
+    // Days of the week
+    monday: '月曜日',
+    tuesday: '火曜日',
+    wednesday: '水曜日',
+    thursday: '木曜日',
+    friday: '金曜日',
+    saturday: '土曜日',
+    sunday: '日曜日',
+    
+    // Months
+    january: '1月',
+    february: '2月',
+    march: '3月',
+    april: '4月',
+    may: '5月',
+    june: '6月',
+    july: '7月',
+    august: '8月',
+    september: '9月',
+    october: '10月',
+    november: '11月',
+    december: '12月',
+    
+    // Home page
+    todaysMenu: '今日のメニュー',
+    menuHistory: 'メニュー履歴',
+    lastDaysRecommendations: '過去7日間のレコメンデーション',
+    noRecommendationsForDay: '今日のレコメンデーションはありません',
+    updateMenu: 'メニューを更新',
+    howDoYouFeel: '今日の気分は？',
+    currentWeight: '現在の体重',
+    goalWeight: '目標体重',
+    dailySummary: '日次サマリー',
   }
 };
 
@@ -1026,3 +1163,48 @@ export const languages = [
   { code: 'de' as Language, name: 'Deutsch' },
   { code: 'ja' as Language, name: '日本語' }
 ];
+
+// Helper function to get day name in current language
+export function getDayName(dayNumber: number): string {
+  const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+  return t(days[dayNumber]);
+}
+
+// Helper function to get month name in current language
+export function getMonthName(monthNumber: number): string {
+  const months = ['january', 'february', 'march', 'april', 'may', 'june', 
+                  'july', 'august', 'september', 'october', 'november', 'december'];
+  return t(months[monthNumber]);
+}
+
+// Helper function to format date in current language
+export function formatDate(date: Date): string {
+  const dayName = getDayName(date.getDay());
+  const day = date.getDate();
+  const monthName = getMonthName(date.getMonth());
+  
+  const language = getLanguage();
+  
+  if (language === 'ja') {
+    return `${monthName}${day}日`;
+  } else if (language === 'en') {
+    return `${dayName}, ${monthName} ${day}`;
+  } else {
+    return `${dayName}, ${day} ${monthName}`;
+  }
+}
+
+// Helper function to format short date for weight tracker
+export function formatShortDate(date: Date): string {
+  const dayName = getDayName(date.getDay()).substring(0, 3); // First 3 letters
+  const day = date.getDate();
+  const monthName = getMonthName(date.getMonth()).substring(0, 3); // First 3 letters
+  
+  const language = getLanguage();
+  
+  if (language === 'ja') {
+    return `${monthName}${day}日`;
+  } else {
+    return `${dayName}, ${day} ${monthName}`;
+  }
+}

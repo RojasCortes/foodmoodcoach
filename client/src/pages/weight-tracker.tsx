@@ -12,7 +12,7 @@ import { getUserFromLocalStorage } from "@/lib/local-storage";
 import BottomNavigation from "@/components/bottom-navigation";
 import WeightChart from "@/components/weight-chart";
 import AdSpace from "@/components/ad-space";
-import { t } from "@/lib/i18n";
+import { t, formatDate } from "@/lib/i18n";
 import { useLanguage } from "@/hooks/use-language";
 import type { User, WeightEntry } from "@shared/schema";
 
@@ -237,11 +237,7 @@ export default function WeightTracker() {
                               <div>
                                 <div className="font-medium text-slate-800">{entry.weight.toFixed(1)} kg</div>
                                 <div className="text-sm text-slate-600">
-                                  {new Date(entry.recordedAt!).toLocaleDateString('es-ES', {
-                                    weekday: 'short',
-                                    day: 'numeric',
-                                    month: 'short'
-                                  })}
+                                  {formatDate(new Date(entry.recordedAt!))}
                                 </div>
                               </div>
                               {change !== 0 && (

@@ -8,8 +8,7 @@ import BottomNavigation from '@/components/bottom-navigation';
 import { getUserFromLocalStorage } from '@/lib/local-storage';
 import { useLocation } from 'wouter';
 import { format, subDays } from 'date-fns';
-import { es } from 'date-fns/locale';
-import { t } from '@/lib/i18n';
+import { t, formatDate } from '@/lib/i18n';
 import { useLanguage } from '@/hooks/use-language';
 
 export default function History() {
@@ -88,7 +87,7 @@ export default function History() {
             <TabsContent value="recommendations" className="space-y-4">
               <div className="text-center mb-6">
                 <h2 className="text-2xl font-bold text-slate-800">{t('menuHistory')}</h2>
-                <p className="text-slate-600">{t('last7Days')}</p>
+                <p className="text-slate-600">{t('lastDaysRecommendations')}</p>
               </div>
 
               {recommendationsLoading ? (
@@ -114,12 +113,12 @@ export default function History() {
                       <CardHeader className="pb-3">
                         <CardTitle className="text-lg flex items-center gap-2">
                           <Calendar className="h-4 w-4 text-primary" />
-                          {format(new Date(date), 'EEEE, d MMMM', { locale: es })}
+{formatDate(new Date(date))}
                         </CardTitle>
                       </CardHeader>
                       <CardContent className="space-y-3">
                         {!recommendations || recommendations.length === 0 ? (
-                          <p className="text-slate-500 text-sm">{t('noRecommendations')}</p>
+                          <p className="text-slate-500 text-sm">{t('noRecommendationsForDay')}</p>
                         ) : (
                           recommendations.map((rec: any, index: number) => (
                             <div key={index} className="p-3 bg-slate-50 rounded-lg">
