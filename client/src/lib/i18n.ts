@@ -111,6 +111,12 @@ export const translations = {
     requiredFields: 'Por favor completa todos los campos',
     errorCreatingProfile: 'No se pudo crear tu perfil. Inténtalo de nuevo.',
     errorUpdatingProfile: 'No se pudo actualizar tu perfil. Inténtalo de nuevo.',
+    
+    // Additional onboarding
+    whatIsYourGoal: '¿Cuál es tu meta?',
+    howDoYouFeelToday: '¿Cómo te sientes hoy?',
+    createProfile: 'Crear Perfil',
+    yourName: 'Tu nombre',
   },
   
   en: {
@@ -141,6 +147,10 @@ export const translations = {
     goal: 'Goal',
     currentMood: 'Current Mood',
     startJourney: 'Start my healthy journey',
+    whatIsYourGoal: 'What is your goal?',
+    howDoYouFeelToday: 'How do you feel today?',
+    createProfile: 'Create Profile',
+    yourName: 'Your name',
     
     // Goals
     loseWeight: 'Lose weight',

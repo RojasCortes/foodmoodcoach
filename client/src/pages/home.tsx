@@ -10,10 +10,13 @@ import { generateDailyRecommendations } from "@/lib/food-recommendations";
 import MealCard from "@/components/meal-card";
 import BottomNavigation from "@/components/bottom-navigation";
 import AdSpace from "@/components/ad-space";
+import { t } from "@/lib/i18n";
+import { useLanguage } from "@/hooks/use-language";
 import type { User, DailyRecommendation, WeightEntry, Mood, Goal, MealRecommendation } from "@shared/schema";
 
 export default function Home() {
   const queryClient = useQueryClient();
+  const { language } = useLanguage();
   const [user, setUser] = useState<User | null>(null);
   const [currentDate] = useState(() => new Date().toISOString().split('T')[0]);
 
@@ -127,11 +130,11 @@ export default function Home() {
             
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-white/20 rounded-lg p-3">
-                <div className="text-xs sm:text-sm lg:text-base text-green-100">Peso actual</div>
+                <div className="text-xs sm:text-sm lg:text-base text-green-100">{t('currentWeight')}</div>
                 <div className="text-lg sm:text-xl lg:text-2xl font-semibold">{currentWeight.toFixed(1)} kg</div>
               </div>
               <div className="bg-white/20 rounded-lg p-3">
-                <div className="text-xs sm:text-sm lg:text-base text-green-100">Meta</div>
+                <div className="text-xs sm:text-sm lg:text-base text-green-100">{t('goalWeight')}</div>
                 <div className="text-lg sm:text-xl lg:text-2xl font-semibold">{user.goalWeight.toFixed(1)} kg</div>
               </div>
             </div>

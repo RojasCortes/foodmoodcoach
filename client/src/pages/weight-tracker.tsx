@@ -12,10 +12,13 @@ import { getUserFromLocalStorage } from "@/lib/local-storage";
 import BottomNavigation from "@/components/bottom-navigation";
 import WeightChart from "@/components/weight-chart";
 import AdSpace from "@/components/ad-space";
+import { t } from "@/lib/i18n";
+import { useLanguage } from "@/hooks/use-language";
 import type { User, WeightEntry } from "@shared/schema";
 
 export default function WeightTracker() {
   const queryClient = useQueryClient();
+  const { language } = useLanguage();
   const [user, setUser] = useState<User | null>(null);
   const [isAddWeightOpen, setIsAddWeightOpen] = useState(false);
   const [newWeight, setNewWeight] = useState('');
@@ -47,8 +50,8 @@ export default function WeightTracker() {
       setIsAddWeightOpen(false);
       setNewWeight('');
       toast({
-        title: "¡Peso registrado!",
-        description: "Tu peso ha sido guardado exitosamente.",
+        title: t('weightAdded'),
+        description: t('weightAdded'),
       });
     },
     onError: () => {
@@ -104,21 +107,21 @@ export default function WeightTracker() {
       <div className="p-4 sm:p-6 md:p-8 lg:p-12 xl:p-16 pb-20">
         <div className="w-full space-y-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-slate-800">Seguimiento de Peso</h2>
+          <h2 className="text-2xl font-bold text-slate-800">{t('weightTracking')}</h2>
           <Dialog open={isAddWeightOpen} onOpenChange={setIsAddWeightOpen}>
             <DialogTrigger asChild>
               <Button className="font-medium">
                 <Plus className="h-4 w-4 mr-2" />
-                Agregar
+{t('addWeight')}
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
               <DialogHeader>
-                <DialogTitle>Registrar Peso</DialogTitle>
+                <DialogTitle>{t('addWeight')}</DialogTitle>
               </DialogHeader>
               <form onSubmit={handleAddWeight} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="weight">Peso (kg)</Label>
+                  <Label htmlFor="weight">{t('weight')}</Label>
                   <Input
                     id="weight"
                     type="number"

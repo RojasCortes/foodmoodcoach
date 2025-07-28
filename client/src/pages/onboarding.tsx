@@ -10,25 +10,32 @@ import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { toast } from "@/hooks/use-toast";
 import { saveUserToLocalStorage } from "@/lib/local-storage";
+import { t } from "@/lib/i18n";
+import { useLanguage } from "@/hooks/use-language";
 import type { InsertUser, Mood, Goal } from "@shared/schema";
 
-const moods: { value: Mood; emoji: string; label: string }[] = [
-  { value: 'happy', emoji: '😊', label: 'Feliz' },
-  { value: 'sad', emoji: '😔', label: 'Triste' },
-  { value: 'energetic', emoji: '⚡', label: 'Enérgico' },
-  { value: 'calm', emoji: '😌', label: 'Tranquilo' },
-  { value: 'stressed', emoji: '😰', label: 'Estresado' },
-  { value: 'neutral', emoji: '😐', label: 'Normal' }
-];
+function getMoods() {
+  return [
+    { value: 'happy' as Mood, emoji: '😊', label: t('happy') },
+    { value: 'sad' as Mood, emoji: '😔', label: t('sad') },
+    { value: 'energetic' as Mood, emoji: '⚡', label: t('energetic') },
+    { value: 'calm' as Mood, emoji: '😌', label: t('calm') },
+    { value: 'stressed' as Mood, emoji: '😰', label: t('stressed') },
+    { value: 'neutral' as Mood, emoji: '😐', label: t('neutral') }
+  ];
+}
 
-const goals: { value: Goal; title: string; description: string; warning?: boolean }[] = [
-  { value: 'lose', title: 'Perder peso', description: 'Estar más delgado/a' },
-  { value: 'maintain', title: 'Mantener peso', description: 'Peso normal y saludable' },
-  { value: 'gain', title: 'Subir de peso', description: 'Con precaución', warning: true }
-];
+function getGoals() {
+  return [
+    { value: 'lose' as Goal, title: t('loseWeight'), description: t('loseWeightDesc') },
+    { value: 'maintain' as Goal, title: t('maintainWeight'), description: t('maintainWeightDesc') },
+    { value: 'gain' as Goal, title: t('gainWeight'), description: t('gainWeightDesc'), warning: true }
+  ];
+}
 
 export default function Onboarding() {
   const [, navigate] = useLocation();
+  const { language } = useLanguage();
   const [formData, setFormData] = useState({
     name: '',
     height: '',
@@ -36,6 +43,9 @@ export default function Onboarding() {
     goal: '' as Goal,
     mood: '' as Mood
   });
+
+  const moods = getMoods();
+  const goals = getGoals();
 
   const createUserMutation = useMutation({
     mutationFn: async (userData: InsertUser) => {
@@ -45,8 +55,8 @@ export default function Onboarding() {
     onSuccess: (user) => {
       saveUserToLocalStorage(user);
       toast({
-        title: "¡Perfil creado!",
-        description: "Tu perfil ha sido configurado exitosamente.",
+        title: t('profileCreated'),
+        description: t('profileCreated'),
       });
       // Navigate to home and force a reload to ensure proper state update
       setTimeout(() => {
@@ -56,8 +66,8 @@ export default function Onboarding() {
     },
     onError: (error) => {
       toast({
-        title: "Error",
-        description: "No se pudo crear tu perfil. Inténtalo de nuevo.",
+        title: t('error'),
+        description: t('errorCreatingProfile'),
         variant: "destructive",
       });
     }
@@ -68,8 +78,8 @@ export default function Onboarding() {
     
     if (!formData.name || !formData.height || !formData.weight || !formData.goal || !formData.mood) {
       toast({
-        title: "Campos requeridos",
-        description: "Por favor completa todos los campos.",
+        title: t('requiredFields'),
+        description: t('requiredFields'),
         variant: "destructive",
       });
       return;
@@ -80,8 +90,8 @@ export default function Onboarding() {
     
     if (height < 100 || height > 250) {
       toast({
-        title: "Altura inválida",
-        description: "La altura debe estar entre 100 y 250 cm.",
+        title: t('error'),
+        description: t('invalidHeight'),
         variant: "destructive",
       });
       return;
@@ -89,8 +99,8 @@ export default function Onboarding() {
 
     if (weight < 30 || weight > 300) {
       toast({
-        title: "Peso inválido",
-        description: "El peso debe estar entre 30 y 300 kg.",
+        title: t('error'),
+        description: t('invalidWeight'),
         variant: "destructive",
       });
       return;
@@ -135,19 +145,19 @@ export default function Onboarding() {
           <div className="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-full mx-auto mb-4 flex items-center justify-center">
             <Heart className="h-8 w-8 text-white" />
           </div>
-          <h2 className="text-2xl font-bold text-slate-800 mb-2">¡Bienvenido a FoodMood!</h2>
-          <p className="text-slate-600">Configuremos tu perfil para recomendaciones personalizadas</p>
+          <h2 className="text-2xl font-bold text-slate-800 mb-2">{t('welcome')}</h2>
+          <p className="text-slate-600">{t('welcomeSubtitle')}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Personal Info */}
           <Card>
             <CardContent className="p-6 space-y-4">
-              <h3 className="font-semibold text-lg text-slate-800 mb-4">Información Personal</h3>
+              <h3 className="font-semibold text-lg text-slate-800 mb-4">{t('personalInfo')}</h3>
               
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Nombre</Label>
+                  <Label htmlFor="name">{t('name')}</Label>
                   <Input
                     id="name"
                     value={formData.name}
@@ -159,7 +169,7 @@ export default function Onboarding() {
                 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="weight">Peso (kg)</Label>
+                    <Label htmlFor="weight">{t('weight')}</Label>
                     <Input
                       id="weight"
                       type="number"
@@ -171,7 +181,7 @@ export default function Onboarding() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="height">Altura (cm)</Label>
+                    <Label htmlFor="height">{t('height')}</Label>
                     <Input
                       id="height"
                       type="number"
@@ -189,7 +199,7 @@ export default function Onboarding() {
           {/* Goal Selection */}
           <Card>
             <CardContent className="p-6">
-              <h3 className="font-semibold text-lg text-slate-800 mb-4">¿Cuál es tu meta?</h3>
+              <h3 className="font-semibold text-lg text-slate-800 mb-4">{t('whatIsYourGoal')}</h3>
               <RadioGroup 
                 value={formData.goal} 
                 onValueChange={(value: Goal) => setFormData(prev => ({ ...prev, goal: value }))}
@@ -215,7 +225,7 @@ export default function Onboarding() {
           {/* Mood Selection */}
           <Card>
             <CardContent className="p-6">
-              <h3 className="font-semibold text-lg text-slate-800 mb-4">¿Cómo te sientes hoy?</h3>
+              <h3 className="font-semibold text-lg text-slate-800 mb-4">{t('howDoYouFeelToday')}</h3>
               <div className="grid grid-cols-3 gap-3">
                 {moods.map((mood) => (
                   <button

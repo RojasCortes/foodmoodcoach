@@ -109,6 +109,14 @@ The architecture prioritizes simplicity, type safety, and mobile user experience
 
 ## Recent Changes (January 2025)
 
+### Internationalization System (July 2025)
+- **Complete translation system**: Implemented full i18n support with Spanish, English, and French
+- **Dynamic language switching**: Users can change language in Profile settings with immediate effect
+- **Comprehensive translations**: All UI elements, navigation, forms, and messages are translated
+- **Language persistence**: Selected language is saved to localStorage and maintained across sessions
+- **Error handling**: Fixed null/undefined errors in history page recommendations display
+- **Mobile-first approach**: All translations optimized for mobile interface
+
 ### Navigation and Layout Improvements
 - **Full-width responsive design**: Removed container width limits to use entire browser width
 - **Enhanced navigation flow**: Fixed onboarding-to-main-app transition with proper state management
@@ -117,7 +125,10 @@ The architecture prioritizes simplicity, type safety, and mobile user experience
 - **Fixed routing issues**: Added event listeners and auto-reload for seamless user experience after profile creation
 
 ### Technical Updates
-- Updated App.tsx router to listen for localStorage changes and custom events
+- Added comprehensive i18n system with t() function and useLanguage hook
+- Created translation files for ES, EN, FR with support for additional languages
+- Updated all major pages (Home, Profile, History, Weight Tracker, Onboarding) with translations
+- Fixed null checking for recommendations data to prevent runtime errors
 - Enhanced local storage utilities to dispatch custom events when user data is saved
 - Implemented timeout-based navigation with page reload for reliable state transitions
 - Optimized responsive breakpoints for desktop, tablet, and mobile layouts
