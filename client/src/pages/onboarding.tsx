@@ -48,7 +48,11 @@ export default function Onboarding() {
         title: "¡Perfil creado!",
         description: "Tu perfil ha sido configurado exitosamente.",
       });
-      navigate('/');
+      // Navigate to home and force a reload to ensure proper state update
+      setTimeout(() => {
+        navigate('/');
+        window.location.reload();
+      }, 1000);
     },
     onError: (error) => {
       toast({

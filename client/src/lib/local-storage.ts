@@ -5,6 +5,8 @@ const USER_STORAGE_KEY = 'foodmood_user';
 export function saveUserToLocalStorage(user: User): void {
   try {
     localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
+    // Dispatch custom event to notify about user being saved
+    window.dispatchEvent(new Event('userSaved'));
   } catch (error) {
     console.error('Error saving user to localStorage:', error);
   }

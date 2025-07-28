@@ -14,8 +14,26 @@ function Router() {
   const [hasUser, setHasUser] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const user = getUserFromLocalStorage();
-    setHasUser(!!user);
+    const checkUser = () => {
+      const user = getUserFromLocalStorage();
+      setHasUser(!!user);
+    };
+    
+    checkUser();
+    
+    // Listen for storage changes (when user is saved from onboarding)
+    const handleStorageChange = () => {
+      checkUser();
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    // Also listen for custom events
+    window.addEventListener('userSaved', handleStorageChange);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('userSaved', handleStorageChange);
+    };
   }, []);
 
   if (hasUser === null) {
