@@ -111,12 +111,21 @@ export const translations = {
     requiredFields: 'Por favor completa todos los campos',
     errorCreatingProfile: 'No se pudo crear tu perfil. Inténtalo de nuevo.',
     errorUpdatingProfile: 'No se pudo actualizar tu perfil. Inténtalo de nuevo.',
+    errorAddingWeight: 'No se pudo registrar el peso. Inténtalo de nuevo.',
     
     // Additional onboarding
     whatIsYourGoal: '¿Cuál es tu meta?',
     howDoYouFeelToday: '¿Cómo te sientes hoy?',
     createProfile: 'Crear Perfil',
     yourName: 'Tu nombre',
+    
+    // Home page additional
+    hello: '¡Hola',
+    menuUpdated: '¡Menú actualizado!',
+    newRecommendationsGenerated: 'Se han generado nuevas recomendaciones para hoy.',
+    errorUpdatingMenu: 'No se pudo actualizar el menú. Inténtalo de nuevo.',
+    creatingProfile: 'Creando perfil...',
+    startHealthyJourney: 'Comenzar mi viaje saludable',
   },
   
   en: {
@@ -151,6 +160,14 @@ export const translations = {
     howDoYouFeelToday: 'How do you feel today?',
     createProfile: 'Create Profile',
     yourName: 'Your name',
+    
+    // Home page additional
+    hello: 'Hello',
+    menuUpdated: 'Menu updated!',
+    newRecommendationsGenerated: 'New recommendations have been generated for today.',
+    errorUpdatingMenu: 'Could not update menu. Please try again.',
+    creatingProfile: 'Creating profile...',
+    startHealthyJourney: 'Start my healthy journey',
     
     // Goals
     loseWeight: 'Lose weight',
@@ -343,6 +360,21 @@ export const translations = {
     requiredFields: 'Veuillez remplir tous les champs',
     errorCreatingProfile: 'Impossible de créer votre profil. Veuillez réessayer.',
     errorUpdatingProfile: 'Impossible de mettre à jour votre profil. Veuillez réessayer.',
+    weightAdded: 'Poids ajouté avec succès!',
+    
+    // Additional onboarding
+    whatIsYourGoal: 'Quel est votre objectif?',
+    howDoYouFeelToday: 'Comment vous sentez-vous aujourd\'hui?',
+    createProfile: 'Créer le Profil',
+    yourName: 'Votre nom',
+    
+    // Home page additional
+    hello: 'Bonjour',
+    menuUpdated: 'Menu mis à jour!',
+    newRecommendationsGenerated: 'De nouvelles recommandations ont été générées pour aujourd\'hui.',
+    errorUpdatingMenu: 'Impossible de mettre à jour le menu. Veuillez réessayer.',
+    creatingProfile: 'Création du profil...',
+    startHealthyJourney: 'Commencer mon voyage santé',
   }
 };
 
@@ -361,15 +393,10 @@ export function setLanguage(lang: Language) {
 }
 
 export function t(key: string): string {
-  const lang = getLanguage();
-  const keys = key.split('.');
-  let value: any = translations[lang];
-  
-  for (const k of keys) {
-    value = value?.[k];
-  }
-  
-  return value || key;
+  const language = getLanguage();
+  // Ensure we only use supported languages
+  const supportedLanguage = (['es', 'en', 'fr'].includes(language)) ? language : 'es';
+  return translations[supportedLanguage]?.[key] || translations.es[key] || key;
 }
 
 export const languages = [

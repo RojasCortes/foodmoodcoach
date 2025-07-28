@@ -56,8 +56,8 @@ export default function WeightTracker() {
     },
     onError: () => {
       toast({
-        title: "Error",
-        description: "No se pudo registrar el peso. Inténtalo de nuevo.",
+        title: t('error'),
+        description: t('errorAddingWeight'),
         variant: "destructive",
       });
     }
@@ -69,8 +69,8 @@ export default function WeightTracker() {
     const weight = parseFloat(newWeight);
     if (isNaN(weight) || weight < 30 || weight > 300) {
       toast({
-        title: "Peso inválido",
-        description: "El peso debe estar entre 30 y 300 kg.",
+        title: t('error'),
+        description: t('invalidWeight'),
         variant: "destructive",
       });
       return;

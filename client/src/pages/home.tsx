@@ -62,14 +62,14 @@ export default function Home() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/users', user?.id, 'recommendations', currentDate] });
       toast({
-        title: "¡Menú actualizado!",
-        description: "Se han generado nuevas recomendaciones para hoy.",
+        title: t('menuUpdated'),
+        description: t('newRecommendationsGenerated'),
       });
     },
     onError: () => {
       toast({
-        title: "Error",
-        description: "No se pudo actualizar el menú. Inténtalo de nuevo.",
+        title: t('error'),
+        description: t('errorUpdatingMenu'),
         variant: "destructive",
       });
     }
@@ -115,8 +115,8 @@ export default function Home() {
           <div className="bg-gradient-to-r from-primary to-green-600 rounded-xl p-4 sm:p-6 text-white">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold">¡Hola, {user.name}!</h2>
-                <p className="text-green-100 text-sm sm:text-base lg:text-lg">¿Cómo te sientes hoy?</p>
+                <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold">{t('hello')}, {user.name}!</h2>
+                <p className="text-green-100 text-sm sm:text-base lg:text-lg">{t('howDoYouFeelToday')}</p>
               </div>
               <div className="text-2xl sm:text-3xl lg:text-4xl">
                 {user.currentMood === 'happy' && '😊'}
@@ -146,7 +146,7 @@ export default function Home() {
               {/* Daily Menu Section */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-xl lg:text-2xl font-bold text-slate-800">Menú de Hoy</h3>
+                  <h3 className="text-xl lg:text-2xl font-bold text-slate-800">{t('todayMenu')}</h3>
                   <Button 
                     variant="ghost" 
                     size="sm" 
@@ -155,7 +155,7 @@ export default function Home() {
                     className="text-primary font-medium"
                   >
                     <RotateCcw className={`h-4 w-4 mr-1 ${generateRecommendationsMutation.isPending ? 'animate-spin' : ''}`} />
-                    Actualizar
+{t('updateMenu')}
                   </Button>
                 </div>
 

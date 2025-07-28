@@ -254,10 +254,10 @@ export default function Onboarding() {
             {createUserMutation.isPending ? (
               <>
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                Creando perfil...
+                {t('creatingProfile')}
               </>
             ) : (
-              'Comenzar mi viaje saludable'
+              t('startHealthyJourney')
             )}
           </Button>
         </form>
