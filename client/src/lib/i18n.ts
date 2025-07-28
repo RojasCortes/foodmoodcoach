@@ -1,5 +1,5 @@
 // Internationalization system for FoodMood
-export type Language = 'es' | 'en' | 'fr' | 'de' | 'it' | 'pt';
+export type Language = 'es' | 'en' | 'fr' | 'pt' | 'it' | 'de' | 'ja';
 
 export const translations = {
   es: {
@@ -453,13 +453,424 @@ export const translations = {
     deleteAccountDesc: 'Supprime définitivement votre compte et toutes les données',
     areYouSure: 'Êtes-vous sûr?',
     deleteAccountWarning: 'Cette action ne peut pas être annulée. Cela supprimera définitivement votre compte et toutes les données associées.',
+  },
+
+  // Portuguese translations
+  pt: {
+    // Navigation
+    dashboard: 'Painel',
+    profile: 'Perfil',
+    history: 'Histórico',
+    weightTracker: 'Controle de Peso',
+    
+    // Welcome
+    welcome: 'Bem-vindo ao FoodMood',
+    welcomeDescription: 'Sua jornada para uma vida mais saudável baseada no seu humor e objetivos pessoais.',
+    
+    // Goals
+    loseWeight: 'Perder peso',
+    maintainWeight: 'Manter peso',
+    gainWeight: 'Ganhar peso',
+    loseWeightDesc: 'Criar um déficit calórico saudável',
+    maintainWeightDesc: 'Manter seu peso atual',
+    gainWeightDesc: 'Aumentar massa muscular de forma saudável',
+    
+    // Moods
+    happy: 'Feliz',
+    sad: 'Triste',
+    energetic: 'Energético',
+    calm: 'Calmo',
+    stressed: 'Estressado',
+    neutral: 'Neutro',
+    
+    // Form fields
+    name: 'Nome',
+    height: 'Altura (cm)',
+    weight: 'Peso (kg)',
+    goalWeight: 'Peso objetivo (kg)',
+    goal: 'Objetivo',
+    currentMood: 'Humor atual',
+    
+    // Actions
+    next: 'Próximo',
+    back: 'Voltar',
+    save: 'Salvar',
+    cancel: 'Cancelar',
+    update: 'Atualizar',
+    delete: 'Excluir',
+    confirm: 'Confirmar',
+    settings: 'Configurações',
+    
+    // Meals
+    breakfast: 'Café da manhã',
+    lunch: 'Almoço',
+    dinner: 'Jantar',
+    
+    // Messages
+    profileUpdated: 'Perfil atualizado com sucesso!',
+    error: 'Erro',
+    errorUpdatingProfile: 'Não foi possível atualizar o perfil. Tente novamente.',
+    invalidHeight: 'A altura deve estar entre 100 e 250 cm.',
+    invalidWeight: 'O peso deve estar entre 30 e 300 kg.',
+    accountDeleted: 'Conta excluída com sucesso!',
+    languageChanged: 'Idioma alterado',
+    
+    // Home
+    todaysMenu: 'Menu de Hoje',
+    hello: 'Olá',
+    menuUpdated: 'Menu atualizado!',
+    newRecommendationsGenerated: 'Novas recomendações foram geradas para hoje.',
+    errorUpdatingMenu: 'Não foi possível atualizar o menu. Tente novamente.',
+    creatingProfile: 'Criando perfil...',
+    startHealthyJourney: 'Iniciar minha jornada saudável',
+    
+    // Additional home and profile translations
+    noRecommendations: 'Nenhuma recomendação disponível para hoje.',
+    generateRecommendations: 'Gerar Recomendações',
+    dailySummary: 'Resumo do dia',
+    calories: 'Calorias',
+    protein: 'Proteína',
+    fiber: 'Fibra',
+    
+    // BMI categories
+    underweight: 'Abaixo do peso',
+    normalWeight: 'Peso normal',
+    overweight: 'Sobrepeso',
+    obesity: 'Obesidade',
+    
+    // Settings
+    language: 'Idioma',
+    changeLanguage: 'Alterar idioma da aplicação',
+    moodState: 'Estado de Humor',
+    
+    // Delete account
+    dangerZone: 'Zona de Perigo',
+    deleteAccount: 'Excluir Conta',
+    deleteAccountDesc: 'Excluir permanentemente sua conta e todos os dados',
+    areYouSure: 'Tem certeza?',
+    deleteAccountWarning: 'Esta ação não pode ser desfeita. Isso excluirá permanentemente sua conta e todos os dados associados.',
+    
+    // Additional
+    personalInformation: 'Informações Pessoais',
+    saving: 'Salvando...',
+    saveChanges: 'Salvar Alterações',
+    weightAdded: 'Peso adicionado com sucesso!',
+    errorCreatingProfile: 'Não foi possível criar seu perfil. Tente novamente.',
+    errorUpdatingProfile: 'Não foi possível atualizar seu perfil. Tente novamente.',
+  },
+
+  // Italian translations
+  it: {
+    // Navigation
+    dashboard: 'Dashboard',
+    profile: 'Profilo',
+    history: 'Cronologia',
+    weightTracker: 'Controllo Peso',
+    
+    // Welcome
+    welcome: 'Benvenuto su FoodMood',
+    welcomeDescription: 'Il tuo viaggio verso una vita più sana basata sul tuo umore e obiettivi personali.',
+    
+    // Goals
+    loseWeight: 'Perdere peso',
+    maintainWeight: 'Mantenere peso',
+    gainWeight: 'Aumentare peso',
+    loseWeightDesc: 'Creare un deficit calorico sano',
+    maintainWeightDesc: 'Mantenere il peso attuale',
+    gainWeightDesc: 'Aumentare massa muscolare in modo sano',
+    
+    // Moods
+    happy: 'Felice',
+    sad: 'Triste',
+    energetic: 'Energico',
+    calm: 'Calmo',
+    stressed: 'Stressato',
+    neutral: 'Neutrale',
+    
+    // Form fields
+    name: 'Nome',
+    height: 'Altezza (cm)',
+    weight: 'Peso (kg)',
+    goalWeight: 'Peso obiettivo (kg)',
+    goal: 'Obiettivo',
+    currentMood: 'Umore attuale',
+    
+    // Actions
+    next: 'Avanti',
+    back: 'Indietro',
+    save: 'Salva',
+    cancel: 'Annulla',
+    update: 'Aggiorna',
+    delete: 'Elimina',
+    confirm: 'Conferma',
+    settings: 'Impostazioni',
+    
+    // Meals
+    breakfast: 'Colazione',
+    lunch: 'Pranzo',
+    dinner: 'Cena',
+    
+    // Messages
+    profileUpdated: 'Profilo aggiornato con successo!',
+    error: 'Errore',
+    errorUpdatingProfile: 'Impossibile aggiornare il profilo. Riprova.',
+    invalidHeight: 'L\'altezza deve essere tra 100 e 250 cm.',
+    invalidWeight: 'Il peso deve essere tra 30 e 300 kg.',
+    accountDeleted: 'Account eliminato con successo!',
+    languageChanged: 'Lingua cambiata',
+    
+    // Home
+    todaysMenu: 'Menu di Oggi',
+    hello: 'Ciao',
+    menuUpdated: 'Menu aggiornato!',
+    newRecommendationsGenerated: 'Sono state generate nuove raccomandazioni per oggi.',
+    errorUpdatingMenu: 'Impossibile aggiornare il menu. Riprova.',
+    creatingProfile: 'Creazione profilo...',
+    startHealthyJourney: 'Inizia il mio viaggio sano',
+    
+    // Additional home and profile translations
+    noRecommendations: 'Nessuna raccomandazione disponibile per oggi.',
+    generateRecommendations: 'Genera Raccomandazioni',
+    dailySummary: 'Riepilogo del giorno',
+    calories: 'Calorie',
+    protein: 'Proteine',
+    fiber: 'Fibre',
+    
+    // BMI categories
+    underweight: 'Sottopeso',
+    normalWeight: 'Peso normale',
+    overweight: 'Sovrappeso',
+    obesity: 'Obesità',
+    
+    // Settings
+    language: 'Lingua',
+    changeLanguage: 'Cambia lingua dell\'applicazione',
+    moodState: 'Stato d\'Umore',
+    
+    // Delete account
+    dangerZone: 'Zona Pericolosa',
+    deleteAccount: 'Elimina Account',
+    deleteAccountDesc: 'Elimina permanentemente il tuo account e tutti i dati',
+    areYouSure: 'Sei sicuro?',
+    deleteAccountWarning: 'Questa azione non può essere annullata. Eliminerà permanentemente il tuo account e tutti i dati associati.',
+    
+    // Additional
+    personalInformation: 'Informazioni Personali',
+    saving: 'Salvataggio...',
+    saveChanges: 'Salva Modifiche',
+    weightAdded: 'Peso aggiunto con successo!',
+    errorCreatingProfile: 'Impossibile creare il tuo profilo. Riprova.',
+    errorUpdatingProfile: 'Impossibile aggiornare il tuo profilo. Riprova.',
+  },
+
+  // German translations
+  de: {
+    // Navigation
+    dashboard: 'Dashboard',
+    profile: 'Profil',
+    history: 'Verlauf',
+    weightTracker: 'Gewichtskontrolle',
+    
+    // Welcome
+    welcome: 'Willkommen bei FoodMood',
+    welcomeDescription: 'Ihre Reise zu einem gesünderen Leben basierend auf Ihrer Stimmung und persönlichen Zielen.',
+    
+    // Goals
+    loseWeight: 'Gewicht verlieren',
+    maintainWeight: 'Gewicht halten',
+    gainWeight: 'Gewicht zunehmen',
+    loseWeightDesc: 'Ein gesundes Kaloriendefizit schaffen',
+    maintainWeightDesc: 'Ihr aktuelles Gewicht halten',
+    gainWeightDesc: 'Gesund Muskelmasse aufbauen',
+    
+    // Moods
+    happy: 'Glücklich',
+    sad: 'Traurig',
+    energetic: 'Energiegeladen',
+    calm: 'Ruhig',
+    stressed: 'Gestresst',
+    neutral: 'Neutral',
+    
+    // Form fields
+    name: 'Name',
+    height: 'Größe (cm)',
+    weight: 'Gewicht (kg)',
+    goalWeight: 'Zielgewicht (kg)',
+    goal: 'Ziel',
+    currentMood: 'Aktuelle Stimmung',
+    
+    // Actions
+    next: 'Weiter',
+    back: 'Zurück',
+    save: 'Speichern',
+    cancel: 'Abbrechen',
+    update: 'Aktualisieren',
+    delete: 'Löschen',
+    confirm: 'Bestätigen',
+    settings: 'Einstellungen',
+    
+    // Meals
+    breakfast: 'Frühstück',
+    lunch: 'Mittagessen',
+    dinner: 'Abendessen',
+    
+    // Messages
+    profileUpdated: 'Profil erfolgreich aktualisiert!',
+    error: 'Fehler',
+    errorUpdatingProfile: 'Profil konnte nicht aktualisiert werden. Versuchen Sie es erneut.',
+    invalidHeight: 'Die Größe muss zwischen 100 und 250 cm liegen.',
+    invalidWeight: 'Das Gewicht muss zwischen 30 und 300 kg liegen.',
+    accountDeleted: 'Konto erfolgreich gelöscht!',
+    languageChanged: 'Sprache geändert',
+    
+    // Home
+    todaysMenu: 'Heutiges Menü',
+    hello: 'Hallo',
+    menuUpdated: 'Menü aktualisiert!',
+    newRecommendationsGenerated: 'Neue Empfehlungen für heute wurden generiert.',
+    errorUpdatingMenu: 'Menü konnte nicht aktualisiert werden. Versuchen Sie es erneut.',
+    creatingProfile: 'Profil wird erstellt...',
+    startHealthyJourney: 'Meine gesunde Reise beginnen',
+    
+    // Additional home and profile translations
+    noRecommendations: 'Keine Empfehlungen für heute verfügbar.',
+    generateRecommendations: 'Empfehlungen Generieren',
+    dailySummary: 'Tageszusammenfassung',
+    calories: 'Kalorien',
+    protein: 'Protein',
+    fiber: 'Ballaststoffe',
+    
+    // BMI categories
+    underweight: 'Untergewicht',
+    normalWeight: 'Normalgewicht',
+    overweight: 'Übergewicht',
+    obesity: 'Adipositas',
+    
+    // Settings
+    language: 'Sprache',
+    changeLanguage: 'Anwendungssprache ändern',
+    moodState: 'Stimmungszustand',
+    
+    // Delete account
+    dangerZone: 'Gefahrenzone',
+    deleteAccount: 'Konto Löschen',
+    deleteAccountDesc: 'Ihr Konto und alle Daten dauerhaft löschen',
+    areYouSure: 'Sind Sie sicher?',
+    deleteAccountWarning: 'Diese Aktion kann nicht rückgängig gemacht werden. Dies wird Ihr Konto und alle zugehörigen Daten dauerhaft löschen.',
+    
+    // Additional
+    personalInformation: 'Persönliche Informationen',
+    saving: 'Speichern...',
+    saveChanges: 'Änderungen Speichern',
+    weightAdded: 'Gewicht erfolgreich hinzugefügt!',
+    errorCreatingProfile: 'Ihr Profil konnte nicht erstellt werden. Versuchen Sie es erneut.',
+    errorUpdatingProfile: 'Ihr Profil konnte nicht aktualisiert werden. Versuchen Sie es erneut.',
+  },
+
+  // Japanese translations
+  ja: {
+    // Navigation
+    dashboard: 'ダッシュボード',
+    profile: 'プロフィール',
+    history: '履歴',
+    weightTracker: '体重管理',
+    
+    // Welcome
+    welcome: 'FoodMoodへようこそ',
+    welcomeDescription: 'あなたの気分と個人的な目標に基づいた、より健康的な生活への旅。',
+    
+    // Goals
+    loseWeight: '体重を減らす',
+    maintainWeight: '体重を維持する',
+    gainWeight: '体重を増やす',
+    loseWeightDesc: '健康的なカロリー不足を作る',
+    maintainWeightDesc: '現在の体重を維持する',
+    gainWeightDesc: '健康的に筋肉量を増やす',
+    
+    // Moods
+    happy: '嬉しい',
+    sad: '悲しい',
+    energetic: '元気',
+    calm: '穏やか',
+    stressed: 'ストレス',
+    neutral: '普通',
+    
+    // Form fields
+    name: '名前',
+    height: '身長 (cm)',
+    weight: '体重 (kg)',
+    goalWeight: '目標体重 (kg)',
+    goal: '目標',
+    currentMood: '現在の気分',
+    
+    // Actions
+    next: '次へ',
+    back: '戻る',
+    save: '保存',
+    cancel: 'キャンセル',
+    update: '更新',
+    delete: '削除',
+    confirm: '確認',
+    settings: '設定',
+    
+    // Meals
+    breakfast: '朝食',
+    lunch: '昼食',
+    dinner: '夕食',
+    
+    // Messages
+    profileUpdated: 'プロフィールが正常に更新されました！',
+    error: 'エラー',
+    errorUpdatingProfile: 'プロフィールを更新できませんでした。もう一度お試しください。',
+    invalidHeight: '身長は100〜250cmの間である必要があります。',
+    invalidWeight: '体重は30〜300kgの間である必要があります。',
+    accountDeleted: 'アカウントが正常に削除されました！',
+    languageChanged: '言語が変更されました',
+    
+    // Home
+    todaysMenu: '今日のメニュー',
+    hello: 'こんにちは',
+    menuUpdated: 'メニューが更新されました！',
+    newRecommendationsGenerated: '今日の新しい推奨事項が生成されました。',
+    errorUpdatingMenu: 'メニューを更新できませんでした。もう一度お試しください。',
+    creatingProfile: 'プロフィールを作成中...',
+    startHealthyJourney: '健康な旅を始める',
+    
+    // Additional home and profile translations
+    noRecommendations: '今日の推奨事項はありません。',
+    generateRecommendations: '推奨事項を生成',
+    dailySummary: '日次サマリー',
+    calories: 'カロリー',
+    protein: 'タンパク質',
+    fiber: '食物繊維',
+    
+    // BMI categories
+    underweight: '低体重',
+    normalWeight: '標準体重',
+    overweight: '過体重',
+    obesity: '肥満',
+    
+    // Settings
+    language: '言語',
+    changeLanguage: 'アプリケーションの言語を変更',
+    moodState: '気分状態',
+    
+    // Delete account
+    dangerZone: '危険ゾーン',
+    deleteAccount: 'アカウント削除',
+    deleteAccountDesc: 'アカウントとすべてのデータを完全に削除',
+    areYouSure: '本当によろしいですか？',
+    deleteAccountWarning: 'この操作は元に戻せません。アカウントと関連するすべてのデータが完全に削除されます。',
+    
+    // Additional
+    personalInformation: '個人情報',
+    saving: '保存中...',
+    saveChanges: '変更を保存',
+    weightAdded: '体重が正常に追加されました！',
+    errorCreatingProfile: 'プロフィールを作成できませんでした。もう一度お試しください。',
+    errorUpdatingProfile: 'プロフィールを更新できませんでした。もう一度お試しください。',
   }
 };
-
-// Add other languages (de, it, pt) with basic translations
-(translations as any).de = { ...translations.en };
-(translations as any).it = { ...translations.en };
-(translations as any).pt = { ...translations.en };
 
 export function getLanguage(): Language {
   return (localStorage.getItem('foodmood_language') as Language) || 'es';
@@ -473,7 +884,7 @@ export function setLanguage(lang: Language) {
 export function t(key: string): string {
   const language = getLanguage();
   // Ensure we only use supported languages
-  const supportedLanguage = (['es', 'en', 'fr'].includes(language)) ? language : 'es';
+  const supportedLanguage = (['es', 'en', 'fr', 'pt', 'it', 'de', 'ja'].includes(language)) ? language : 'es';
   return translations[supportedLanguage]?.[key] || translations.es[key] || key;
 }
 
@@ -481,7 +892,8 @@ export const languages = [
   { code: 'es' as Language, name: 'Español' },
   { code: 'en' as Language, name: 'English' },
   { code: 'fr' as Language, name: 'Français' },
-  { code: 'de' as Language, name: 'Deutsch' },
+  { code: 'pt' as Language, name: 'Português' },
   { code: 'it' as Language, name: 'Italiano' },
-  { code: 'pt' as Language, name: 'Português' }
+  { code: 'de' as Language, name: 'Deutsch' },
+  { code: 'ja' as Language, name: '日本語' }
 ];
