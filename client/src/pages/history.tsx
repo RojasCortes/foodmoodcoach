@@ -9,9 +9,12 @@ import { getUserFromLocalStorage } from '@/lib/local-storage';
 import { useLocation } from 'wouter';
 import { format, subDays } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { t } from '@/lib/i18n';
+import { useLanguage } from '@/hooks/use-language';
 
 export default function History() {
   const [, navigate] = useLocation();
+  const { language } = useLanguage();
   const [user, setUser] = useState(getUserFromLocalStorage());
   
   useEffect(() => {
@@ -61,7 +64,7 @@ export default function History() {
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <Calendar className="h-6 w-6" />
-          <h1 className="text-xl font-semibold">Historial</h1>
+          <h1 className="text-xl font-semibold">{t('history')}</h1>
         </div>
       </header>
 
@@ -73,19 +76,19 @@ export default function History() {
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="recommendations" className="flex items-center gap-2">
                 <Utensils className="h-4 w-4" />
-                Recomendaciones
+{t('recommendations')}
               </TabsTrigger>
               <TabsTrigger value="weight" className="flex items-center gap-2">
                 <TrendingUp className="h-4 w-4" />
-                Peso
+{t('weightTracker')}
               </TabsTrigger>
             </TabsList>
 
             {/* Recommendations History */}
             <TabsContent value="recommendations" className="space-y-4">
               <div className="text-center mb-6">
-                <h2 className="text-2xl font-bold text-slate-800">Historial de Menús</h2>
-                <p className="text-slate-600">Últimos 7 días de recomendaciones</p>
+                <h2 className="text-2xl font-bold text-slate-800">{t('menuHistory')}</h2>
+                <p className="text-slate-600">{t('last7Days')}</p>
               </div>
 
               {recommendationsLoading ? (
@@ -115,22 +118,22 @@ export default function History() {
                         </CardTitle>
                       </CardHeader>
                       <CardContent className="space-y-3">
-                        {recommendations.length === 0 ? (
-                          <p className="text-slate-500 text-sm">Sin recomendaciones para este día</p>
+                        {!recommendations || recommendations.length === 0 ? (
+                          <p className="text-slate-500 text-sm">{t('noRecommendations')}</p>
                         ) : (
                           recommendations.map((rec: any, index: number) => (
                             <div key={index} className="p-3 bg-slate-50 rounded-lg">
                               <div className="flex items-center justify-between mb-2">
                                 <span className="font-medium text-primary capitalize">
-                                  {rec.mealType === 'breakfast' ? 'Desayuno' : 
-                                   rec.mealType === 'lunch' ? 'Almuerzo' : 'Cena'}
+                                  {rec.mealType === 'breakfast' ? t('breakfast') : 
+                                   rec.mealType === 'lunch' ? t('lunch') : t('dinner')}
                                 </span>
                                 <Clock className="h-3 w-3 text-slate-400" />
                               </div>
                               <h4 className="font-semibold text-slate-800 mb-1">{rec.dishName}</h4>
                               <p className="text-sm text-slate-600 line-clamp-2">{rec.benefits}</p>
                               <div className="mt-2 text-xs text-slate-500">
-                                {rec.calories} cal • {rec.protein}g proteína
+                                {rec.calories} {t('calories')} • {rec.protein}g {t('protein')}
                               </div>
                             </div>
                           ))
@@ -145,8 +148,8 @@ export default function History() {
             {/* Weight History */}
             <TabsContent value="weight" className="space-y-4">
               <div className="text-center mb-6">
-                <h2 className="text-2xl font-bold text-slate-800">Historial de Peso</h2>
-                <p className="text-slate-600">Todos tus registros de peso</p>
+                <h2 className="text-2xl font-bold text-slate-800">{t('weightHistory')}</h2>
+                <p className="text-slate-600">{t('allWeightRecords')}</p>
               </div>
 
               {weightLoading ? (
@@ -169,13 +172,13 @@ export default function History() {
                 <Card>
                   <CardContent className="p-8 text-center text-slate-600">
                     <TrendingUp className="h-12 w-12 mx-auto mb-4 text-slate-400" />
-                    <p>No hay registros de peso aún.</p>
-                    <p className="text-sm mt-1">Ve al tracker de peso para agregar tu primer registro.</p>
+                    <p>{t('noWeightRecords')}</p>
+                    <p className="text-sm mt-1">{t('addFirstRecord')}</p>
                     <Button 
                       className="mt-4"
                       onClick={() => navigate('/weight-tracker')}
                     >
-                      Ir al Tracker
+                      {t('goToTracker')}
                     </Button>
                   </CardContent>
                 </Card>

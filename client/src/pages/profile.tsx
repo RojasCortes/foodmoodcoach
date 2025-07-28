@@ -212,7 +212,7 @@ export default function Profile() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="goalWeight">Peso Meta (kg)</Label>
+                    <Label htmlFor="goalWeight">{t('goalWeight')}</Label>
                     <Input
                       id="goalWeight"
                       type="number"
@@ -222,7 +222,7 @@ export default function Profile() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label>Objetivo</Label>
+                    <Label>{t('goal')}</Label>
                     <Select value={editForm.goal} onValueChange={(value: Goal) => setEditForm({ ...editForm, goal: value })}>
                       <SelectTrigger>
                         <SelectValue />
@@ -237,7 +237,7 @@ export default function Profile() {
                     </Select>
                   </div>
                   <div className="space-y-2 md:col-span-2">
-                    <Label>Estado de Ánimo Actual</Label>
+                    <Label>{t('currentMood')}</Label>
                     <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
                       {moods.map((mood) => (
                         <button
@@ -263,7 +263,7 @@ export default function Profile() {
                       className="flex-1"
                     >
                       <Save className="h-4 w-4 mr-2" />
-                      {updateUserMutation.isPending ? 'Guardando...' : 'Guardar Cambios'}
+                      {updateUserMutation.isPending ? t('saving') : t('saveChanges')}
                     </Button>
                     <Button 
                       variant="outline"
@@ -278,30 +278,30 @@ export default function Profile() {
                         });
                       }}
                     >
-                      Cancelar
+                      {t('cancel')}
                     </Button>
                   </div>
                 </div>
               ) : (
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                   <div>
-                    <div className="text-sm text-slate-600">Nombre</div>
+                    <div className="text-sm text-slate-600">{t('name')}</div>
                     <div className="font-semibold text-lg">{user.name}</div>
                   </div>
                   <div>
-                    <div className="text-sm text-slate-600">Altura</div>
+                    <div className="text-sm text-slate-600">{t('height')}</div>
                     <div className="font-semibold text-lg">{user.height} cm</div>
                   </div>
                   <div>
-                    <div className="text-sm text-slate-600">Peso Inicial</div>
+                    <div className="text-sm text-slate-600">{t('initialWeight')}</div>
                     <div className="font-semibold text-lg">{user.initialWeight} kg</div>
                   </div>
                   <div>
-                    <div className="text-sm text-slate-600">Peso Meta</div>
+                    <div className="text-sm text-slate-600">{t('goalWeight')}</div>
                     <div className="font-semibold text-lg">{user.goalWeight} kg</div>
                   </div>
                   <div>
-                    <div className="text-sm text-slate-600">Objetivo</div>
+                    <div className="text-sm text-slate-600">{t('objective')}</div>
                     <div className="font-semibold text-lg">
                       {goals.find(g => g.value === user.goal)?.title}
                     </div>
@@ -331,7 +331,7 @@ export default function Profile() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Settings className="h-5 w-5" />
-                Configuración
+                {t('settings')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
