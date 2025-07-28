@@ -26,7 +26,7 @@ export default function WeightTracker() {
   }, []);
 
   // Fetch weight entries
-  const { data: weightEntries = [], isLoading } = useQuery({
+  const { data: weightEntries = [], isLoading } = useQuery<WeightEntry[]>({
     queryKey: ['/api/users', user?.id, 'weight-entries'],
     enabled: !!user?.id,
   });
@@ -101,7 +101,8 @@ export default function WeightTracker() {
       </header>
 
       {/* Content */}
-      <div className="p-6 space-y-6 pb-20">
+      <div className="p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 pb-20">
+        <div className="max-w-6xl mx-auto space-y-6">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-bold text-slate-800">Seguimiento de Peso</h2>
           <Dialog open={isAddWeightOpen} onOpenChange={setIsAddWeightOpen}>
@@ -249,6 +250,7 @@ export default function WeightTracker() {
 
         {/* Ad Space */}
         <AdSpace size="large" />
+        </div>
       </div>
 
       <BottomNavigation currentScreen="weightTracker" />

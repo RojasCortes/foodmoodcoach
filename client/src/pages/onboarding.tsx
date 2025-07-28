@@ -125,7 +125,7 @@ export default function Onboarding() {
       </header>
 
       {/* Onboarding Content */}
-      <div className="p-6 space-y-6 pb-20">
+      <div className="p-4 sm:p-6 md:p-8 space-y-6 pb-20 max-w-2xl mx-auto">
         <div className="text-center mb-8">
           <div className="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-full mx-auto mb-4 flex items-center justify-center">
             <Heart className="h-8 w-8 text-white" />

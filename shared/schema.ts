@@ -70,5 +70,7 @@ export type MealRecommendation = {
   description: string;
   benefits: string;
   calories: number;
+  protein: number;
+  fiber: number;
   image: string;
 };

@@ -37,7 +37,8 @@ export class MemStorage implements IStorage {
     const user: User = { 
       ...insertUser, 
       id,
-      createdAt: new Date()
+      createdAt: new Date(),
+      currentMood: insertUser.currentMood || null
     };
     this.users.set(id, user);
     return user;
