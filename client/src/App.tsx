@@ -7,6 +7,8 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Onboarding from "@/pages/onboarding";
 import WeightTracker from "@/pages/weight-tracker";
+import History from "@/pages/history";
+import Profile from "@/pages/profile";
 import { useEffect, useState } from "react";
 import { getUserFromLocalStorage } from "@/lib/local-storage";
 
@@ -50,6 +52,8 @@ function Router() {
       <Route path="/" component={hasUser ? Home : Onboarding} />
       <Route path="/onboarding" component={Onboarding} />
       <Route path="/weight-tracker" component={WeightTracker} />
+      <Route path="/history" component={History} />
+      <Route path="/profile" component={Profile} />
       <Route component={NotFound} />
     </Switch>
   );
