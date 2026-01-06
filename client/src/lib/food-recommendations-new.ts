@@ -1,6 +1,5 @@
 import type { Mood, Goal, MealRecommendation } from "@shared/schema";
-import { getLanguage } from "./i18n";
-import { getTranslatedRecipe } from "./recipe-translations";
+import { recipes, getTranslatedRecipeData, getRecipesByMealAndMood } from "./recipe-database";
 
 interface DailyRecommendations {
   breakfast: MealRecommendation;
@@ -11,74 +10,43 @@ interface DailyRecommendations {
   totalFiber: number;
 }
 
-// Recipe keys for mood-based recommendations
-const recipeDatabase = {
-  breakfast: {
-    happy: ['avocado_toast_happy', 'yogurt_bowl_happy'],
-    sad: ['chocolate_oats_sad'],
-    energetic: ['green_smoothie_energetic'],
-    calm: ['almond_toast_calm'],
-    stressed: ['yogurt_parfait_stressed'],
-    neutral: ['avocado_toast_happy'] // fallback
-  },
-  lunch: {
-    happy: ['avocado_toast_happy'], // We'll use breakfast recipes for now
-    sad: ['chocolate_oats_sad'],
-    energetic: ['green_smoothie_energetic'],
-    calm: ['almond_toast_calm'],
-    stressed: ['yogurt_parfait_stressed'],
-    neutral: ['yogurt_bowl_happy']
-  },
-  dinner: {
-    happy: ['yogurt_bowl_happy'],
-    sad: ['chocolate_oats_sad'],
-    energetic: ['green_smoothie_energetic'],
-    calm: ['almond_toast_calm'],
-    stressed: ['yogurt_parfait_stressed'],
-    neutral: ['avocado_toast_happy']
-  }
-};
-
-function getRandomRecipe(recipeKeys: string[]): MealRecommendation {
-  const randomKey = recipeKeys[Math.floor(Math.random() * recipeKeys.length)];
-  // Get Spanish as base for storing in DB (translation happens at display time)
-  const recipe = getTranslatedRecipe(randomKey, 'es');
+function getRandomRecipeForMeal(mealType: 'breakfast' | 'lunch' | 'dinner', mood: Mood): MealRecommendation {
+  // Get recipes matching this meal type and mood
+  let availableRecipes = getRecipesByMealAndMood(mealType, mood);
   
-  if (!recipe) {
-    // Fallback recipe in case translation is missing
-    return {
-      name: "Healthy Meal",
-      description: "A nutritious meal",
-      benefits: "Provides essential nutrients",
-      calories: 350,
-      protein: 15,
-      fiber: 8,
-      image: "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200",
-      recipeKey: randomKey
-    };
+  // If no recipes match, fall back to 'neutral' mood
+  if (availableRecipes.length === 0) {
+    availableRecipes = getRecipesByMealAndMood(mealType, 'neutral');
   }
-
+  
+  // If still no recipes, get any recipe of this meal type
+  if (availableRecipes.length === 0) {
+    availableRecipes = recipes.filter(r => r.mealType === mealType);
+  }
+  
+  // Select a random recipe
+  const selectedRecipe = availableRecipes[Math.floor(Math.random() * availableRecipes.length)];
+  
+  // Get Spanish translation as default (translation happens at display time)
+  const translation = getTranslatedRecipeData(selectedRecipe.key, 'es');
+  
   return {
-    name: recipe.name,
-    description: recipe.description,
-    benefits: recipe.benefits,
-    calories: recipe.calories,
-    protein: recipe.protein,
-    fiber: recipe.fiber,
-    image: recipe.image,
-    recipeKey: randomKey // Store key for dynamic translation
+    name: translation?.name || 'Comida Saludable',
+    description: translation?.description || 'Una comida nutritiva',
+    benefits: translation?.benefits || 'Proporciona nutrientes esenciales',
+    calories: selectedRecipe.calories,
+    protein: selectedRecipe.protein,
+    fiber: selectedRecipe.fiber,
+    image: selectedRecipe.image,
+    recipeKey: selectedRecipe.key
   };
 }
 
 export function generateDailyRecommendations(mood: Mood, goal: Goal): DailyRecommendations {
-  // Get recipes based on mood
-  const breakfastKeys = recipeDatabase.breakfast[mood] || recipeDatabase.breakfast.neutral;
-  const lunchKeys = recipeDatabase.lunch[mood] || recipeDatabase.lunch.neutral;
-  const dinnerKeys = recipeDatabase.dinner[mood] || recipeDatabase.dinner.neutral;
-
-  const breakfast = getRandomRecipe(breakfastKeys);
-  const lunch = getRandomRecipe(lunchKeys);
-  const dinner = getRandomRecipe(dinnerKeys);
+  // Get random recipes for each meal type based on mood
+  const breakfast = getRandomRecipeForMeal('breakfast', mood);
+  const lunch = getRandomRecipeForMeal('lunch', mood);
+  const dinner = getRandomRecipeForMeal('dinner', mood);
 
   // Adjust calories based on goal
   let calorieMultiplier = 1;
