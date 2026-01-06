@@ -1,4 +1,4 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, useLocation } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -11,9 +11,11 @@ import History from "@/pages/history";
 import Profile from "@/pages/profile";
 import { useEffect, useState } from "react";
 import { getUserFromLocalStorage } from "@/lib/local-storage";
+import { initializeCapacitor, setupBackButtonHandler } from "@/lib/capacitor-utils";
 
 function Router() {
   const [hasUser, setHasUser] = useState<boolean | null>(null);
+  const [location, navigate] = useLocation();
 
   useEffect(() => {
     const checkUser = () => {
@@ -38,6 +40,12 @@ function Router() {
     };
   }, []);
 
+  // Setup Android back button handler
+  useEffect(() => {
+    const cleanup = setupBackButtonHandler(navigate, location);
+    return cleanup;
+  }, [location, navigate]);
+
   if (hasUser === null) {
     // Loading state
     return (
@@ -60,6 +68,10 @@ function Router() {
 }
 
 function App() {
+  useEffect(() => {
+    initializeCapacitor();
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
