@@ -133,3 +133,17 @@ The architecture prioritizes simplicity, type safety, and mobile user experience
 - Enhanced local storage utilities to dispatch custom events when user data is saved
 - Implemented timeout-based navigation with page reload for reliable state transitions
 - Optimized responsive breakpoints for desktop, tablet, and mobile layouts
+
+### Capacitor Android Preparation (January 2026)
+- **Installed Capacitor packages**: @capacitor/core and @capacitor/app for native functionality
+- **Back button handler**: Android hardware back button is handled properly - navigates back or exits app from home screen
+- **Platform detection**: Utility functions in `client/src/lib/capacitor-utils.ts` to detect native vs web platform
+- **Auto language detection**: App automatically detects device language on first visit (supports ES, EN, FR, PT, IT, DE, JA)
+- **Dynamic recipe translation**: Recipes are translated at display time, not storage time, allowing immediate language changes
+
+### Next Steps for Android Conversion
+1. Install Capacitor CLI: `npm install @capacitor/cli`
+2. Initialize Capacitor: `npx cap init`
+3. Add Android platform: `npx cap add android`
+4. Build and sync: `npm run build && npx cap sync`
+5. Open in Android Studio: `npx cap open android`
