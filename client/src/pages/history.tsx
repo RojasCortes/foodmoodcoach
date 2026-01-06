@@ -10,7 +10,8 @@ import { useLocation } from 'wouter';
 import { format, subDays } from 'date-fns';
 import { t, formatDate, formatShortDate } from '@/lib/i18n';
 import { useLanguage } from '@/hooks/use-language';
-import type { DailyRecommendation } from '@shared/schema';
+import { getTranslatedRecipe } from '@/lib/recipe-translations';
+import type { DailyRecommendation, MealRecommendation } from '@shared/schema';
 
 export default function History() {
   const [, navigate] = useLocation();
@@ -129,7 +130,14 @@ export default function History() {
                             <p className="text-slate-500 text-sm">{t('noRecommendationsForDay')}</p>
                           ) : (
                             meals.map((meal, index) => {
-                              const rec = meal.data as any;
+                              const rec = meal.data as MealRecommendation;
+                              // Get translated recipe if recipeKey exists
+                              const translatedRecipe = rec.recipeKey 
+                                ? getTranslatedRecipe(rec.recipeKey, language) 
+                                : null;
+                              const displayName = translatedRecipe?.name || rec.name || (rec as any).dishName;
+                              const displayBenefits = translatedRecipe?.benefits || rec.benefits;
+                              
                               return (
                                 <div key={index} className="p-3 bg-slate-50 rounded-lg">
                                   <div className="flex items-center justify-between mb-2">
@@ -139,8 +147,8 @@ export default function History() {
                                     </span>
                                     <Clock className="h-3 w-3 text-slate-400" />
                                   </div>
-                                  <h4 className="font-semibold text-slate-800 mb-1">{rec.dishName}</h4>
-                                  <p className="text-sm text-slate-600 line-clamp-2">{rec.benefits}</p>
+                                  <h4 className="font-semibold text-slate-800 mb-1">{displayName}</h4>
+                                  <p className="text-sm text-slate-600 line-clamp-2">{displayBenefits}</p>
                                   <div className="mt-2 text-xs text-slate-500">
                                     {rec.calories} {t('calories')} • {rec.protein}g {t('protein')}
                                   </div>
