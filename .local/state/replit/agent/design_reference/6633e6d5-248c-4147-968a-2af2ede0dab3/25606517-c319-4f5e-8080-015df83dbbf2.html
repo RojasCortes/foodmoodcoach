@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodMood - Tu Nutrición por Estado de Ánimo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#10B981',
+                        secondary: '#F59E0B',
+                        accent: '#8B5CF6',
+                        mood: {
+                            happy: '#FDE047',
+                            sad: '#60A5FA',
+                            energetic: '#FB7185',
+                            calm: '#34D399',
+                            stressed: '#F87171'
+                        }
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#10B981">
+</head>
+<body class="font-inter bg-slate-50 text-slate-900">
+
+    <!-- @COMPONENT: AppContainer -->
+    <div id="app" class="max-w-md mx-auto bg-white min-h-screen shadow-xl">
+        
+        <!-- @COMPONENT: AppHeader -->
+        <header class="bg-primary text-white p-4 sticky top-0 z-50">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-utensils text-2xl"></i>
+                    <h1 class="text-xl font-semibold">FoodMood</h1>
+                </div>
+                <button id="menuBtn" class="p-2">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </header>
+        <!-- @END_COMPONENT: AppHeader -->
+
+        <!-- @COMPONENT: OnboardingScreen -->
+        <div id="onboarding" class="p-6 space-y-6">
+            <div class="text-center mb-8">
+                <div class="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <i class="fas fa-heart text-2xl text-white"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-800 mb-2">¡Bienvenido a FoodMood!</h2>
+                <p class="text-slate-600">Configuremos tu perfil para recomendaciones personalizadas</p>
+            </div>
+
+            <!-- Personal Info Form -->
+            <div class="bg-slate-50 rounded-xl p-6 space-y-4">
+                <h3 class="font-semibold text-lg text-slate-800 mb-4">Información Personal</h3>
+                
+                <div class="space-y-4">
+                    <div class="relative">
+                        <input type="text" id="name" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder=" " data-mock="true">
+                        <label for="name" class="absolute left-3 -top-2.5 bg-white px-1 text-sm text-slate-600">Nombre</label>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="relative">
+                            <input type="number" id="weight" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder=" " data-bind="user.weight" data-mock="true">
+                            <label for="weight" class="absolute left-3 -top-2.5 bg-white px-1 text-sm text-slate-600">Peso (kg)</label>
+                        </div>
+                        <div class="relative">
+                            <input type="number" id="height" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder=" " data-bind="user.height" data-mock="true">
+                            <label for="height" class="absolute left-3 -top-2.5 bg-white px-1 text-sm text-slate-600">Altura (cm)</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goal Selection -->
+            <div class="bg-slate-50 rounded-xl p-6">
+                <h3 class="font-semibold text-lg text-slate-800 mb-4">¿Cuál es tu meta?</h3>
+                <div class="space-y-3" data-implementation="Radio button group for goal selection">
+                    <label class="flex items-center p-3 border border-slate-200 rounded-lg cursor-pointer hover:bg-white transition-colors">
+                        <input type="radio" name="goal" value="lose" class="text-primary focus:ring-primary" data-mock="true">
+                        <div class="ml-3">
+                            <div class="font-medium text-slate-800">Perder peso</div>
+                            <div class="text-sm text-slate-600">Estar más delgado/a</div>
+                        </div>
+                    </label>
+                    <label class="flex items-center p-3 border border-slate-200 rounded-lg cursor-pointer hover:bg-white transition-colors">
+                        <input type="radio" name="goal" value="maintain" class="text-primary focus:ring-primary" data-mock="true">
+                        <div class="ml-3">
+                            <div class="font-medium text-slate-800">Mantener peso</div>
+                            <div class="text-sm text-slate-600">Peso normal y saludable</div>
+                        </div>
+                    </label>
+                    <label class="flex items-center p-3 border border-slate-200 rounded-lg cursor-pointer hover:bg-white transition-colors">
+                        <input type="radio" name="goal" value="gain" class="text-primary focus:ring-primary" data-mock="true">
+                        <div class="ml-3">
+                            <div class="font-medium text-slate-800">Subir de peso</div>
+                            <div class="text-sm text-amber-600">⚠️ Con precaución</div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Current Mood -->
+            <div class="bg-slate-50 rounded-xl p-6">
+                <h3 class="font-semibold text-lg text-slate-800 mb-4">¿Cómo te sientes hoy?</h3>
+                <div class="grid grid-cols-3 gap-3" data-implementation="Mood selector with different emotional states">
+                    <button class="mood-btn p-4 rounded-xl border-2 border-transparent hover:border-mood-happy transition-colors" data-mood="happy">
+                        <div class="text-3xl mb-2">😊</div>
+                        <div class="text-sm font-medium">Feliz</div>
+                    </button>
+                    <button class="mood-btn p-4 rounded-xl border-2 border-transparent hover:border-mood-sad transition-colors" data-mood="sad">
+                        <div class="text-3xl mb-2">😔</div>
+                        <div class="text-sm font-medium">Triste</div>
+                    </button>
+                    <button class="mood-btn p-4 rounded-xl border-2 border-transparent hover:border-mood-energetic transition-colors" data-mood="energetic">
+                        <div class="text-3xl mb-2">⚡</div>
+                        <div class="text-sm font-medium">Enérgico</div>
+                    </button>
+                    <button class="mood-btn p-4 rounded-xl border-2 border-transparent hover:border-mood-calm transition-colors" data-mood="calm">
+                        <div class="text-3xl mb-2">😌</div>
+                        <div class="text-sm font-medium">Tranquilo</div>
+                    </button>
+                    <button class="mood-btn p-4 rounded-xl border-2 border-transparent hover:border-mood-stressed transition-colors" data-mood="stressed">
+                        <div class="text-3xl mb-2">😰</div>
+                        <div class="text-sm font-medium">Estresado</div>
+                    </button>
+                    <button class="mood-btn p-4 rounded-xl border-2 border-transparent hover:border-primary transition-colors" data-mood="neutral">
+                        <div class="text-3xl mb-2">😐</div>
+                        <div class="text-sm font-medium">Normal</div>
+                    </button>
+                </div>
+            </div>
+
+            <button id="completeOnboarding" class="w-full bg-primary text-white py-4 rounded-xl font-semibold text-lg hover:bg-green-600 transition-colors" data-event="click:completeSetup">
+                Comenzar mi viaje saludable
+            </button>
+        </div>
+        <!-- @END_COMPONENT: OnboardingScreen -->
+
+        <!-- @COMPONENT: MainDashboard -->
+        <div id="dashboard" class="hidden">
+            
+            <!-- Daily Recommendations Section -->
+            <div class="p-6 space-y-6">
+                
+                <!-- Today's Mood & Weight -->
+                <div class="bg-gradient-to-r from-primary to-green-600 rounded-xl p-6 text-white">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h2 class="text-xl font-semibold">¡Hola, <span data-bind="user.name" data-mock="true">María</span>!</h2>
+                            <p class="text-green-100">¿Cómo te sientes hoy?</p>
+                        </div>
+                        <div class="text-3xl">😊</div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4">
+                        <div class="flex-1 bg-white/20 rounded-lg p-3">
+                            <div class="text-sm text-green-100">Peso actual</div>
+                            <div class="text-xl font-semibold"><span data-bind="user.currentWeight" data-mock="true">65</span> kg</div>
+                        </div>
+                        <div class="flex-1 bg-white/20 rounded-lg p-3">
+                            <div class="text-sm text-green-100">Meta</div>
+                            <div class="text-xl font-semibold"><span data-bind="user.goalWeight" data-mock="true">62</span> kg</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ad Space 1 -->
+                <div class="bg-slate-100 rounded-xl p-4 text-center border-2 border-dashed border-slate-300">
+                    <i class="fas fa-ad text-slate-400 text-2xl mb-2"></i>
+                    <p class="text-slate-500 text-sm">Espacio publicitario</p>
+                    <p class="text-xs text-slate-400">320x100 banner</p>
+                </div>
+
+                <!-- Daily Menu Section -->
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-xl font-bold text-slate-800">Menú de Hoy</h3>
+                        <button class="text-primary font-medium" data-event="click:refreshMenu">
+                            <i class="fas fa-sync-alt mr-1"></i>
+                            Actualizar
+                        </button>
+                    </div>
+
+                    <!-- Breakfast -->
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="flex items-center p-4 bg-amber-50">
+                            <div class="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-sun text-amber-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-slate-800">Desayuno</h4>
+                                <p class="text-sm text-slate-600">8:00 AM - 380 kcal</p>
+                            </div>
+                        </div>
+                        
+                        <div class="p-4">
+                            <!-- Avocado toast with eggs breakfast image -->
+                            <img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=200" alt="Tostada con aguacate y huevo" class="w-full h-40 object-cover rounded-lg mb-3" data-mock-image="true">
+                            
+                            <h5 class="font-semibold text-slate-800 mb-2" data-bind="breakfast.name" data-mock="true">Tostada de Aguacate con Huevo</h5>
+                            <p class="text-sm text-slate-600 mb-3" data-bind="breakfast.description" data-mock="true">Pan integral, aguacate fresco, huevo pochado y semillas de chía</p>
+                            
+                            <div class="bg-green-50 rounded-lg p-3">
+                                <h6 class="text-sm font-medium text-green-800 mb-1">💡 Beneficios para tu estado de ánimo:</h6>
+                                <p class="text-sm text-green-700" data-bind="breakfast.benefits" data-mock="true">Las grasas saludables del aguacate y las proteínas del huevo te darán energía estable y mejorarán tu concentración.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lunch -->
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="flex items-center p-4 bg-orange-50">
+                            <div class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-sun text-orange-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-slate-800">Almuerzo</h4>
+                                <p class="text-sm text-slate-600">1:00 PM - 520 kcal</p>
+                            </div>
+                        </div>
+                        
+                        <div class="p-4">
+                            <!-- Colorful salmon and quinoa bowl -->
+                            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=200" alt="Bowl de salmón con quinoa y vegetales" class="w-full h-40 object-cover rounded-lg mb-3" data-mock-image="true">
+                            
+                            <h5 class="font-semibold text-slate-800 mb-2" data-bind="lunch.name" data-mock="true">Bowl de Salmón con Quinoa</h5>
+                            <p class="text-sm text-slate-600 mb-3" data-bind="lunch.description" data-mock="true">Salmón a la plancha, quinoa, espinacas frescas, tomates cherry y aderezo de limón</p>
+                            
+                            <div class="bg-blue-50 rounded-lg p-3">
+                                <h6 class="text-sm font-medium text-blue-800 mb-1">💡 Beneficios para tu estado de ánimo:</h6>
+                                <p class="text-sm text-blue-700" data-bind="lunch.benefits" data-mock="true">Los omega-3 del salmón son excelentes para mejorar el estado de ánimo y reducir la ansiedad.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ad Space 2 -->
+                    <div class="bg-slate-100 rounded-xl p-4 text-center border-2 border-dashed border-slate-300">
+                        <i class="fas fa-ad text-slate-400 text-2xl mb-2"></i>
+                        <p class="text-slate-500 text-sm">Espacio publicitario</p>
+                        <p class="text-xs text-slate-400">320x100 banner</p>
+                    </div>
+
+                    <!-- Dinner -->
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="flex items-center p-4 bg-purple-50">
+                            <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-moon text-purple-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-slate-800">Cena</h4>
+                                <p class="text-sm text-slate-600">7:00 PM - 420 kcal</p>
+                            </div>
+                        </div>
+                        
+                        <div class="p-4">
+                            <!-- Vegetable stir fry with tofu -->
+                            <img src="https://pixabay.com/get/gbff351ac8c15927d2cfc615eb05495cc8114115a7dfbec39d16d74c1dcf28420dc42ca4a8cb13064fd024cd1f197a93213373d7f04d7cd8e3bcf00081a5034ea_1280.jpg" alt="Salteado de vegetales con tofu" class="w-full h-40 object-cover rounded-lg mb-3" data-mock-image="true">
+                            
+                            <h5 class="font-semibold text-slate-800 mb-2" data-bind="dinner.name" data-mock="true">Salteado de Vegetales con Tofu</h5>
+                            <p class="text-sm text-slate-600 mb-3" data-bind="dinner.description" data-mock="true">Tofu marinado, brócoli, pimientos, zanahorias y salsa de jengibre</p>
+                            
+                            <div class="bg-purple-50 rounded-lg p-3">
+                                <h6 class="text-sm font-medium text-purple-800 mb-1">💡 Beneficios para tu estado de ánimo:</h6>
+                                <p class="text-sm text-purple-700" data-bind="dinner.benefits" data-mock="true">Los vegetales coloridos aportan antioxidantes que combaten el estrés y mejoran tu bienestar general.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Daily Totals -->
+                <div class="bg-slate-50 rounded-xl p-4">
+                    <h4 class="font-semibold text-slate-800 mb-3">Resumen del día</h4>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-primary" data-bind="daily.calories" data-mock="true">1,320</div>
+                            <div class="text-sm text-slate-600">Calorías</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-secondary" data-bind="daily.protein" data-mock="true">89g</div>
+                            <div class="text-sm text-slate-600">Proteína</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-accent" data-bind="daily.fiber" data-mock="true">28g</div>
+                            <div class="text-sm text-slate-600">Fibra</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: MainDashboard -->
+
+        <!-- @COMPONENT: WeightTracker -->
+        <div id="weightTracker" class="hidden p-6 space-y-6">
+            <div class="flex items-center justify-between">
+                <h2 class="text-2xl font-bold text-slate-800">Seguimiento de Peso</h2>
+                <button id="addWeightBtn" class="bg-primary text-white px-4 py-2 rounded-lg font-medium" data-event="click:showAddWeight">
+                    <i class="fas fa-plus mr-2"></i>Agregar
+                </button>
+            </div>
+
+            <!-- Weight Chart -->
+            <div class="bg-white rounded-xl p-6 border border-slate-200">
+                <h3 class="font-semibold text-slate-800 mb-4">Progreso últimos 7 días</h3>
+                <!-- @FUNCTIONALITY: Simple line chart showing weight progression over time -->
+                <div class="h-48 bg-slate-50 rounded-lg flex items-center justify-center">
+                    <div class="text-center text-slate-500">
+                        <i class="fas fa-chart-line text-3xl mb-2"></i>
+                        <p>Gráfico de progreso</p>
+                        <p class="text-sm">Implementar con Chart.js</p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-3 gap-4 mt-4 text-center">
+                    <div>
+                        <div class="text-lg font-semibold text-slate-800" data-bind="stats.currentWeight" data-mock="true">65.2 kg</div>
+                        <div class="text-sm text-slate-600">Actual</div>
+                    </div>
+                    <div>
+                        <div class="text-lg font-semibold text-primary" data-bind="stats.weightChange" data-mock="true">-1.8 kg</div>
+                        <div class="text-sm text-slate-600">Cambio</div>
+                    </div>
+                    <div>
+                        <div class="text-lg font-semibold text-secondary" data-bind="stats.goalRemaining" data-mock="true">3.2 kg</div>
+                        <div class="text-sm text-slate-600">Restante</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Entries -->
+            <div class="bg-white rounded-xl border border-slate-200">
+                <div class="p-4 border-b border-slate-200">
+                    <h3 class="font-semibold text-slate-800">Registros Recientes</h3>
+                </div>
+                
+                <!-- @MAP: weightEntries.map(entry => ( -->
+                <div class="p-4 border-b border-slate-200 last:border-b-0">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="font-medium text-slate-800" data-bind="entry.weight" data-mock="true">65.2 kg</div>
+                            <div class="text-sm text-slate-600" data-bind="entry.date" data-mock="true">Hoy, 8:30 AM</div>
+                        </div>
+                        <div class="text-sm font-medium text-green-600" data-bind="entry.change" data-mock="true">-0.3 kg</div>
+                    </div>
+                </div>
+                <div class="p-4 border-b border-slate-200 last:border-b-0">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="font-medium text-slate-800" data-bind="entry.weight" data-mock="true">65.5 kg</div>
+                            <div class="text-sm text-slate-600" data-bind="entry.date" data-mock="true">Ayer, 8:15 AM</div>
+                        </div>
+                        <div class="text-sm font-medium text-green-600" data-bind="entry.change" data-mock="true">-0.2 kg</div>
+                    </div>
+                </div>
+                <div class="p-4 border-b border-slate-200 last:border-b-0">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="font-medium text-slate-800" data-bind="entry.weight" data-mock="true">65.7 kg</div>
+                            <div class="text-sm text-slate-600" data-bind="entry.date" data-mock="true">Hace 2 días, 8:00 AM</div>
+                        </div>
+                        <div class="text-sm font-medium text-red-600" data-bind="entry.change" data-mock="true">+0.1 kg</div>
+                    </div>
+                </div>
+                <!-- @END_MAP )) -->
+            </div>
+
+            <!-- Ad Space 3 -->
+            <div class="bg-slate-100 rounded-xl p-4 text-center border-2 border-dashed border-slate-300">
+                <i class="fas fa-ad text-slate-400 text-2xl mb-2"></i>
+                <p class="text-slate-500 text-sm">Espacio publicitario</p>
+                <p class="text-xs text-slate-400">320x150 banner</p>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: WeightTracker -->
+
+        <!-- @COMPONENT: BottomNavigation -->
+        <nav class="fixed bottom-0 left-1/2 transform -translate-x-1/2 max-w-md w-full bg-white border-t border-slate-200">
+            <div class="grid grid-cols-4 py-2">
+                <button class="nav-btn flex flex-col items-center py-2 text-primary" data-screen="dashboard" data-event="click:showScreen">
+                    <i class="fas fa-home text-xl mb-1"></i>
+                    <span class="text-xs font-medium">Inicio</span>
+                </button>
+                <button class="nav-btn flex flex-col items-center py-2 text-slate-400" data-screen="weightTracker" data-event="click:showScreen">
+                    <i class="fas fa-weight text-xl mb-1"></i>
+                    <span class="text-xs font-medium">Peso</span>
+                </button>
+                <button class="nav-btn flex flex-col items-center py-2 text-slate-400" data-screen="history" data-event="click:showScreen">
+                    <i class="fas fa-history text-xl mb-1"></i>
+                    <span class="text-xs font-medium">Historial</span>
+                </button>
+                <button class="nav-btn flex flex-col items-center py-2 text-slate-400" data-screen="profile" data-event="click:showScreen">
+                    <i class="fas fa-user text-xl mb-1"></i>
+                    <span class="text-xs font-medium">Perfil</span>
+                </button>
+            </div>
+        </nav>
+        <!-- @END_COMPONENT: BottomNavigation -->
+
+        <!-- @COMPONENT: AddWeightModal -->
+        <div id="addWeightModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+            <div class="bg-white rounded-xl max-w-sm w-full p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-slate-800">Registrar Peso</h3>
+                    <button id="closeModal" class="text-slate-400 hover:text-slate-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="relative">
+                        <input type="number" step="0.1" id="weightInput" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-center text-2xl font-semibold" placeholder="65.0" data-mock="true">
+                        <label for="weightInput" class="absolute left-3 -top-2.5 bg-white px-1 text-sm text-slate-600">Peso (kg)</label>
+                    </div>
+                    
+                    <div class="text-center text-sm text-slate-600">
+                        <i class="fas fa-clock mr-1"></i>
+                        <span id="currentTime" data-mock="true">Hoy, 8:30 AM</span>
+                    </div>
+                    
+                    <div class="flex space-x-3">
+                        <button id="cancelWeight" class="flex-1 py-3 px-4 border border-slate-300 rounded-lg font-medium text-slate-700 hover:bg-slate-50 transition-colors">
+                            Cancelar
+                        </button>
+                        <button id="saveWeight" class="flex-1 py-3 px-4 bg-primary text-white rounded-lg font-medium hover:bg-green-600 transition-colors" data-event="click:saveWeight">
+                            Guardar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: AddWeightModal -->
+
+        <!-- Spacer for bottom navigation -->
+        <div class="h-20"></div>
+    </div>
+    <!-- @END_COMPONENT: AppContainer -->
+
+    <script>
+        // PWA functionality and basic interactions
+        (function() {
+            // @STATE: currentScreen:string = 'onboarding'
+            // @STATE: userData:object = {}
+            // @STATE: weightEntries:array = []
+            
+            // DOM elements
+            const onboarding = document.getElementById('onboarding');
+            const dashboard = document.getElementById('dashboard');
+            const weightTracker = document.getElementById('weightTracker');
+            const addWeightModal = document.getElementById('addWeightModal');
+            const navButtons = document.querySelectorAll('.nav-btn');
+            const moodButtons = document.querySelectorAll('.mood-btn');
+
+            // Initialize app
+            function initApp() {
+                // TODO: Check if user has completed onboarding from localStorage
+                // TODO: Load user data and preferences
+                // TODO: Initialize service worker for PWA functionality
+                
+                showScreen('onboarding');
+                setupEventListeners();
+            }
+
+            // Screen navigation
+            function showScreen(screenName) {
+                // Hide all screens
+                document.getElementById('onboarding').classList.add('hidden');
+                document.getElementById('dashboard').classList.add('hidden');
+                document.getElementById('weightTracker').classList.add('hidden');
+
+                // Show selected screen
+                if (screenName === 'dashboard') {
+                    dashboard.classList.remove('hidden');
+                } else if (screenName === 'weightTracker') {
+                    weightTracker.classList.remove('hidden');
+                } else if (screenName === 'onboarding') {
+                    onboarding.classList.remove('hidden');
+                }
+
+                // Update navigation
+                navButtons.forEach(btn => {
+                    btn.classList.remove('text-primary');
+                    btn.classList.add('text-slate-400');
+                    if (btn.dataset.screen === screenName) {
+                        btn.classList.add('text-primary');
+                        btn.classList.remove('text-slate-400');
+                    }
+                });
+            }
+
+            // Event listeners
+            function setupEventListeners() {
+                // Navigation
+                navButtons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        showScreen(btn.dataset.screen);
+                    });
+                });
+
+                // Mood selection
+                moodButtons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        moodButtons.forEach(b => b.classList.remove('border-primary', 'bg-blue-50'));
+                        btn.classList.add('border-primary', 'bg-blue-50');
+                        // TODO: Store selected mood
+                    });
+                });
+
+                // Complete onboarding
+                document.getElementById('completeOnboarding').addEventListener('click', () => {
+                    // TODO: Validate form data
+                    // TODO: Save user data to localStorage
+                    // TODO: Generate initial recommendations
+                    showScreen('dashboard');
+                });
+
+                // Weight tracking
+                document.getElementById('addWeightBtn').addEventListener('click', () => {
+                    addWeightModal.classList.remove('hidden');
+                });
+
+                document.getElementById('closeModal').addEventListener('click', () => {
+                    addWeightModal.classList.add('hidden');
+                });
+
+                document.getElementById('cancelWeight').addEventListener('click', () => {
+                    addWeightModal.classList.add('hidden');
+                });
+
+                document.getElementById('saveWeight').addEventListener('click', () => {
+                    // TODO: Validate weight input
+                    // TODO: Save weight entry to localStorage
+                    // TODO: Update weight tracking display
+                    addWeightModal.classList.add('hidden');
+                });
+            }
+
+            // PWA Service Worker Registration
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => console.log('SW registered'))
+                    .catch(error => console.log('SW registration failed'));
+            }
+
+            // Initialize app when DOM is loaded
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initApp);
+            } else {
+                initApp();
+            }
+        })();
+
+        // Update current time display
+        (function updateTime() {
+            const timeElements = document.querySelectorAll('#currentTime');
+            const now = new Date();
+            const timeString = now.toLocaleString('es-ES', {
+                weekday: 'long',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            timeElements.forEach(el => {
+                if (el.dataset.mock === 'true') return;
+                el.textContent = timeString;
+            });
+        })();
+    </script>
+
+    <!-- PWA Manifest -->
+    <script type="application/json" id="manifest">
+    {
+        "name": "FoodMood - Nutrición por Estado de Ánimo",
+        "short_name": "FoodMood",
+        "description": "Recomendaciones de comida personalizadas según tu estado de ánimo y objetivos de peso",
+        "start_url": "/",
+        "display": "standalone",
+        "background_color": "#10B981",
+        "theme_color": "#10B981",
+        "icons": [
+            {
+                "src": "icon-192.png",
+                "sizes": "192x192",
+                "type": "image/png"
+            },
+            {
+                "src": "icon-512.png",
+                "sizes": "512x512",
+                "type": "image/png"
+            }
+        ]
+    }
+    </script>
+
+</body>
+</html>
