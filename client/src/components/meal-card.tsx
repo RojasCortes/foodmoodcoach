@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { t } from "@/lib/i18n";
 import type { MealRecommendation } from "@shared/schema";
 
 interface MealCardProps {
@@ -26,12 +27,6 @@ export default function MealCard({
   benefitTitleColor,
   time
 }: MealCardProps) {
-  const mealTypeLabels = {
-    breakfast: 'Desayuno',
-    lunch: 'Almuerzo',
-    dinner: 'Cena'
-  };
-
   return (
     <Card className="overflow-hidden shadow-sm border border-slate-200">
       <div className={`flex items-center p-4 ${cardBg}`}>
@@ -39,7 +34,7 @@ export default function MealCard({
           <span className={`text-xl ${iconColor}`}>{icon}</span>
         </div>
         <div>
-          <h4 className="font-semibold text-slate-800">{mealTypeLabels[mealType]}</h4>
+          <h4 className="font-semibold text-slate-800">{t(mealType)}</h4>
           <p className="text-sm text-slate-600">{time} - {meal.calories} kcal</p>
         </div>
       </div>
@@ -50,7 +45,6 @@ export default function MealCard({
           alt={meal.name}
           className="w-full h-40 object-cover rounded-lg mb-3"
           onError={(e) => {
-            // Fallback to a placeholder if image fails to load
             e.currentTarget.src = `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200`;
           }}
         />
@@ -59,7 +53,7 @@ export default function MealCard({
         <p className="text-sm text-slate-600 mb-3">{meal.description}</p>
         
         <div className={`${benefitBg} rounded-lg p-3`}>
-          <h6 className={`text-sm font-medium ${benefitTitleColor} mb-1`}>💡 Beneficios para tu estado de ánimo:</h6>
+          <h6 className={`text-sm font-medium ${benefitTitleColor} mb-1`}>💡 {t('moodBenefits')}:</h6>
           <p className={`text-sm ${benefitTextColor}`}>{meal.benefits}</p>
         </div>
       </CardContent>

@@ -77,6 +77,7 @@ export const translations: Record<Language, Record<string, string>> = {
     dailySummary: 'Resumen del día',
     howDoYouFeel: '¿Cómo te sientes?',
     updateMenu: 'Actualizar Menú',
+    moodBenefits: 'Beneficios para tu estado de ánimo',
     
     // Weight Tracker
     weightTracking: 'Control de Peso',
@@ -239,6 +240,7 @@ export const translations: Record<Language, Record<string, string>> = {
     dailySummary: 'Daily Summary',
     howDoYouFeel: 'How do you feel?',
     updateMenu: 'Update Menu',
+    moodBenefits: 'Benefits for your mood',
     
     // Weight Tracker
     weightTracking: 'Weight Tracking',
@@ -401,6 +403,7 @@ export const translations: Record<Language, Record<string, string>> = {
     dailySummary: 'Résumé du jour',
     howDoYouFeel: 'Comment vous sentez-vous ?',
     updateMenu: 'Mettre à jour le Menu',
+    moodBenefits: 'Bienfaits pour votre humeur',
     
     // Weight Tracker
     weightTracking: 'Suivi du Poids',
@@ -563,6 +566,7 @@ export const translations: Record<Language, Record<string, string>> = {
     dailySummary: 'Resumo do dia',
     howDoYouFeel: 'Como você se sente?',
     updateMenu: 'Atualizar Menu',
+    moodBenefits: 'Benefícios para seu humor',
     
     // Weight Tracker
     weightTracking: 'Controle de Peso',
@@ -725,6 +729,7 @@ export const translations: Record<Language, Record<string, string>> = {
     dailySummary: 'Riepilogo del giorno',
     howDoYouFeel: 'Come ti senti?',
     updateMenu: 'Aggiorna Menu',
+    moodBenefits: 'Benefici per il tuo umore',
     
     // Weight Tracker
     weightTracking: 'Monitoraggio Peso',
@@ -887,6 +892,7 @@ export const translations: Record<Language, Record<string, string>> = {
     dailySummary: 'Tageszusammenfassung',
     howDoYouFeel: 'Wie fühlst du dich?',
     updateMenu: 'Menü aktualisieren',
+    moodBenefits: 'Vorteile für deine Stimmung',
     
     // Weight Tracker
     weightTracking: 'Gewichtsverfolgung',
@@ -1049,6 +1055,7 @@ export const translations: Record<Language, Record<string, string>> = {
     dailySummary: '日次サマリー',
     howDoYouFeel: '今日の気分は？',
     updateMenu: 'メニューを更新',
+    moodBenefits: '気分への効果',
     
     // Weight Tracker
     weightTracking: '体重管理',

@@ -47,7 +47,7 @@ function getRandomRecipe(recipeKeys: string[]): MealRecommendation {
   if (!recipe) {
     // Fallback recipe in case translation is missing
     return {
-      dishName: "Healthy Meal",
+      name: "Healthy Meal",
       description: "A nutritious meal",
       benefits: "Provides essential nutrients",
       calories: 350,
@@ -58,7 +58,7 @@ function getRandomRecipe(recipeKeys: string[]): MealRecommendation {
   }
 
   return {
-    dishName: recipe.name,
+    name: recipe.name,
     description: recipe.description,
     benefits: recipe.benefits,
     calories: recipe.calories,
@@ -80,9 +80,9 @@ export function generateDailyRecommendations(mood: Mood, goal: Goal): DailyRecom
 
   // Adjust calories based on goal
   let calorieMultiplier = 1;
-  if (goal === 'loseWeight') {
+  if (goal === 'lose') {
     calorieMultiplier = 0.85;
-  } else if (goal === 'gainWeight') {
+  } else if (goal === 'gain') {
     calorieMultiplier = 1.15;
   }
 
