@@ -190,6 +190,7 @@ export default function Home() {
                       benefitTextColor="text-amber-700"
                       benefitTitleColor="text-amber-800"
                       time="8:00 AM"
+                      language={language}
                     />
 
                     <MealCard
@@ -203,6 +204,7 @@ export default function Home() {
                       benefitTextColor="text-blue-700"
                       benefitTitleColor="text-blue-800"
                       time="1:00 PM"
+                      language={language}
                     />
 
                     <MealCard
@@ -216,6 +218,7 @@ export default function Home() {
                       benefitTextColor="text-purple-700"
                       benefitTitleColor="text-purple-800"
                       time="7:00 PM"
+                      language={language}
                     />
                   </>
                 ) : (

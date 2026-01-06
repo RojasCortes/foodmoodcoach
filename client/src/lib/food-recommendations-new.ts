@@ -40,9 +40,9 @@ const recipeDatabase = {
 };
 
 function getRandomRecipe(recipeKeys: string[]): MealRecommendation {
-  const currentLanguage = getLanguage();
   const randomKey = recipeKeys[Math.floor(Math.random() * recipeKeys.length)];
-  const recipe = getTranslatedRecipe(randomKey, currentLanguage);
+  // Get Spanish as base for storing in DB (translation happens at display time)
+  const recipe = getTranslatedRecipe(randomKey, 'es');
   
   if (!recipe) {
     // Fallback recipe in case translation is missing
@@ -53,7 +53,8 @@ function getRandomRecipe(recipeKeys: string[]): MealRecommendation {
       calories: 350,
       protein: 15,
       fiber: 8,
-      image: "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200"
+      image: "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200",
+      recipeKey: randomKey
     };
   }
 
@@ -64,7 +65,8 @@ function getRandomRecipe(recipeKeys: string[]): MealRecommendation {
     calories: recipe.calories,
     protein: recipe.protein,
     fiber: recipe.fiber,
-    image: recipe.image
+    image: recipe.image,
+    recipeKey: randomKey // Store key for dynamic translation
   };
 }
 

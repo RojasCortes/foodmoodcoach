@@ -73,4 +73,5 @@ export type MealRecommendation = {
   protein: number;
   fiber: number;
   image: string;
+  recipeKey?: string; // Key for dynamic translation
 };
