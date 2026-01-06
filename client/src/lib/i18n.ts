@@ -1158,8 +1158,36 @@ export const translations: Record<Language, Record<string, string>> = {
   }
 };
 
+// Detect browser/device language and map to supported languages
+function detectBrowserLanguage(): Language {
+  const browserLang = navigator.language || (navigator as any).userLanguage || 'es';
+  const langCode = browserLang.split('-')[0].toLowerCase();
+  
+  // Map browser language to supported languages
+  const languageMap: Record<string, Language> = {
+    'es': 'es',
+    'en': 'en',
+    'fr': 'fr',
+    'pt': 'pt',
+    'it': 'it',
+    'de': 'de',
+    'ja': 'ja'
+  };
+  
+  return languageMap[langCode] || 'es'; // Default to Spanish if not supported
+}
+
 export function getLanguage(): Language {
-  return (localStorage.getItem('foodmood_language') as Language) || 'es';
+  const storedLang = localStorage.getItem('foodmood_language') as Language;
+  
+  if (storedLang) {
+    return storedLang;
+  }
+  
+  // Auto-detect browser language on first visit
+  const detectedLang = detectBrowserLanguage();
+  localStorage.setItem('foodmood_language', detectedLang);
+  return detectedLang;
 }
 
 export function setLanguage(lang: Language) {
