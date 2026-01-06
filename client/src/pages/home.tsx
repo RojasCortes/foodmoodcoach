@@ -101,7 +101,12 @@ export default function Home() {
             <Utensils className="h-6 w-6" />
             <h1 className="text-xl font-semibold">FoodMood</h1>
           </div>
-          <Button variant="ghost" size="icon" className="text-white hover:bg-green-600">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="text-white hover:bg-green-600"
+            onClick={() => window.location.href = '/profile'}
+          >
             <Menu className="h-5 w-5" />
           </Button>
         </div>

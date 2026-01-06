@@ -8,8 +8,9 @@ import BottomNavigation from '@/components/bottom-navigation';
 import { getUserFromLocalStorage } from '@/lib/local-storage';
 import { useLocation } from 'wouter';
 import { format, subDays } from 'date-fns';
-import { t, formatDate } from '@/lib/i18n';
+import { t, formatDate, formatShortDate } from '@/lib/i18n';
 import { useLanguage } from '@/hooks/use-language';
+import type { DailyRecommendation } from '@shared/schema';
 
 export default function History() {
   const [, navigate] = useLocation();
@@ -29,7 +30,7 @@ export default function History() {
   });
 
   // Fetch recommendations history for last 7 days
-  const { data: recommendationsHistory = [], isLoading: recommendationsLoading } = useQuery({
+  const { data: recommendationsHistory = [], isLoading: recommendationsLoading } = useQuery<Array<{ date: string; recommendation: DailyRecommendation | null }>>({
     queryKey: ['/api/users', user?.id, 'recommendations-history'],
     queryFn: async () => {
       const promises = [];
@@ -37,9 +38,9 @@ export default function History() {
         const date = format(subDays(new Date(), i), 'yyyy-MM-dd');
         promises.push(
           fetch(`/api/users/${user!.id}/recommendations/${date}`)
-            .then(res => res.json())
-            .then(data => ({ date, recommendations: data }))
-            .catch(() => ({ date, recommendations: [] }))
+            .then(res => res.ok ? res.json() : null)
+            .then(data => ({ date, recommendation: data as DailyRecommendation | null }))
+            .catch(() => ({ date, recommendation: null }))
         );
       }
       return Promise.all(promises);
@@ -108,38 +109,49 @@ export default function History() {
                 </div>
               ) : (
                 <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
-                  {recommendationsHistory.map(({ date, recommendations }) => (
-                    <Card key={date} className="hover:shadow-md transition-shadow">
-                      <CardHeader className="pb-3">
-                        <CardTitle className="text-lg flex items-center gap-2">
-                          <Calendar className="h-4 w-4 text-primary" />
-{formatDate(new Date(date))}
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="space-y-3">
-                        {!recommendations || recommendations.length === 0 ? (
-                          <p className="text-slate-500 text-sm">{t('noRecommendationsForDay')}</p>
-                        ) : (
-                          recommendations.map((rec: any, index: number) => (
-                            <div key={index} className="p-3 bg-slate-50 rounded-lg">
-                              <div className="flex items-center justify-between mb-2">
-                                <span className="font-medium text-primary capitalize">
-                                  {rec.mealType === 'breakfast' ? t('breakfast') : 
-                                   rec.mealType === 'lunch' ? t('lunch') : t('dinner')}
-                                </span>
-                                <Clock className="h-3 w-3 text-slate-400" />
-                              </div>
-                              <h4 className="font-semibold text-slate-800 mb-1">{rec.dishName}</h4>
-                              <p className="text-sm text-slate-600 line-clamp-2">{rec.benefits}</p>
-                              <div className="mt-2 text-xs text-slate-500">
-                                {rec.calories} {t('calories')} • {rec.protein}g {t('protein')}
-                              </div>
-                            </div>
-                          ))
-                        )}
-                      </CardContent>
-                    </Card>
-                  ))}
+                  {recommendationsHistory.map(({ date, recommendation }) => {
+                    const meals = recommendation ? [
+                      { type: 'breakfast', data: recommendation.breakfast },
+                      { type: 'lunch', data: recommendation.lunch },
+                      { type: 'dinner', data: recommendation.dinner }
+                    ].filter(m => m.data) : [];
+
+                    return (
+                      <Card key={date} className="hover:shadow-md transition-shadow">
+                        <CardHeader className="pb-3">
+                          <CardTitle className="text-lg flex items-center gap-2">
+                            <Calendar className="h-4 w-4 text-primary" />
+                            {formatDate(new Date(date))}
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-3">
+                          {meals.length === 0 ? (
+                            <p className="text-slate-500 text-sm">{t('noRecommendationsForDay')}</p>
+                          ) : (
+                            meals.map((meal, index) => {
+                              const rec = meal.data as any;
+                              return (
+                                <div key={index} className="p-3 bg-slate-50 rounded-lg">
+                                  <div className="flex items-center justify-between mb-2">
+                                    <span className="font-medium text-primary capitalize">
+                                      {meal.type === 'breakfast' ? t('breakfast') : 
+                                       meal.type === 'lunch' ? t('lunch') : t('dinner')}
+                                    </span>
+                                    <Clock className="h-3 w-3 text-slate-400" />
+                                  </div>
+                                  <h4 className="font-semibold text-slate-800 mb-1">{rec.dishName}</h4>
+                                  <p className="text-sm text-slate-600 line-clamp-2">{rec.benefits}</p>
+                                  <div className="mt-2 text-xs text-slate-500">
+                                    {rec.calories} {t('calories')} • {rec.protein}g {t('protein')}
+                                  </div>
+                                </div>
+                              );
+                            })
+                          )}
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
                 </div>
               )}
             </TabsContent>
@@ -196,7 +208,7 @@ export default function History() {
                                 {entry.weight.toFixed(1)} kg
                               </div>
                               <div className="text-sm text-slate-600">
-                                {format(new Date(entry.recordedAt), 'EEEE, d MMMM', { locale: es })}
+                                {formatDate(new Date(entry.recordedAt))}
                               </div>
                               <div className="text-xs text-slate-500 mt-1">
                                 {format(new Date(entry.recordedAt), 'HH:mm')}
