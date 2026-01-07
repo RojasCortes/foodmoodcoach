@@ -5,12 +5,9 @@ const config: CapacitorConfig = {
   appName: 'FoodMood',
   webDir: 'dist/public',
   server: {
-    // For development, point to your local server
-    // In production, this should be commented out or point to your production API
-    // url: 'http://10.0.2.2:5000', // Android emulator localhost
-    // url: 'http://192.168.1.XXX:5000', // Physical device - replace with your computer's IP
-    androidScheme: 'https',
-    cleartext: true // Allow HTTP connections for development
+    // For development with emulator - allows HTTP connections
+    cleartext: true, // Allow HTTP connections for development
+    androidScheme: 'http' // Use HTTP for local development
   },
   android: {
     allowMixedContent: true,

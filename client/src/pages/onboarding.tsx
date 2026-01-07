@@ -49,10 +49,19 @@ export default function Onboarding() {
 
   const createUserMutation = useMutation({
     mutationFn: async (userData: InsertUser) => {
-      const response = await apiRequest('POST', '/api/users', userData);
-      return response.json();
+      console.log('[Onboarding] Sending user data:', userData);
+      try {
+        const response = await apiRequest('POST', '/api/users', userData);
+        const result = await response.json();
+        console.log('[Onboarding] User created successfully:', result);
+        return result;
+      } catch (error) {
+        console.error('[Onboarding] Error creating user:', error);
+        throw error;
+      }
     },
     onSuccess: (user) => {
+      console.log('[Onboarding] Success, saving to localStorage');
       saveUserToLocalStorage(user);
       toast({
         title: t('profileCreated'),
@@ -64,10 +73,11 @@ export default function Onboarding() {
         window.location.reload();
       }, 1000);
     },
-    onError: (error) => {
+    onError: (error: any) => {
+      console.error('[Onboarding] Mutation error:', error);
       toast({
         title: t('error'),
-        description: t('errorCreatingProfile'),
+        description: t('errorCreatingProfile') + ': ' + (error?.message || 'Unknown error'),
         variant: "destructive",
       });
     }

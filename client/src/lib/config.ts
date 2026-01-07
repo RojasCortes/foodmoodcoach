@@ -35,5 +35,13 @@ export function getApiBaseUrl(): string {
  */
 export function buildApiUrl(path: string): string {
   const baseUrl = getApiBaseUrl();
-  return `${baseUrl}${path}`;
+  const fullUrl = `${baseUrl}${path}`;
+  console.log('[API Config] Building URL:', {
+    isNative: Capacitor.isNativePlatform(),
+    platform: Capacitor.getPlatform(),
+    baseUrl,
+    path,
+    fullUrl
+  });
+  return fullUrl;
 }
