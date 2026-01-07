@@ -19,12 +19,19 @@ export default function BottomNavigation({ currentScreen }: BottomNavigationProp
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 w-full bg-white border-t border-slate-200">
+    <nav
+      className="fixed bottom-0 left-0 w-full bg-white border-t border-slate-200"
+      style={{
+        paddingBottom: 'calc(0.5rem + env(safe-area-inset-bottom))',
+        paddingLeft: 'env(safe-area-inset-left)',
+        paddingRight: 'env(safe-area-inset-right)'
+      }}
+    >
       <div className="grid grid-cols-4 py-2">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = currentScreen === item.id;
-          
+
           return (
             <button
               key={item.id}

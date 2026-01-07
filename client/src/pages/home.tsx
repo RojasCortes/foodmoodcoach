@@ -95,15 +95,22 @@ export default function Home() {
   return (
     <>
       {/* Header */}
-      <header className="bg-primary text-white p-4 sticky top-0 z-50">
+      <header
+        className="bg-primary text-white p-4 sticky top-0 z-50"
+        style={{
+          paddingTop: 'calc(1rem + env(safe-area-inset-top))',
+          paddingLeft: 'calc(1rem + env(safe-area-inset-left))',
+          paddingRight: 'calc(1rem + env(safe-area-inset-right))'
+        }}
+      >
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <Utensils className="h-6 w-6" />
             <h1 className="text-xl font-semibold">FoodMood</h1>
           </div>
-          <Button 
-            variant="ghost" 
-            size="icon" 
+          <Button
+            variant="ghost"
+            size="icon"
             className="text-white hover:bg-green-600"
             onClick={() => window.location.href = '/profile'}
           >

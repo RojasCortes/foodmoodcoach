@@ -54,7 +54,14 @@ export default function History() {
   return (
     <>
       {/* Header */}
-      <header className="bg-primary text-white p-4 sticky top-0 z-50">
+      <header
+        className="bg-primary text-white p-4 sticky top-0 z-50"
+        style={{
+          paddingTop: 'calc(1rem + env(safe-area-inset-top))',
+          paddingLeft: 'calc(1rem + env(safe-area-inset-left))',
+          paddingRight: 'calc(1rem + env(safe-area-inset-right))'
+        }}
+      >
         <div className="flex items-center space-x-3">
           <Button
             variant="ghost"
