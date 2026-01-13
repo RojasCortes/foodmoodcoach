@@ -2,10 +2,13 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Utensils, Menu, RotateCcw } from "lucide-react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
 import { toast } from "@/hooks/use-toast";
-import { getUserFromLocalStorage, updateUserInLocalStorage } from "@/lib/local-storage";
+import {
+  getUserFromLocalStorage,
+  getLatestWeight,
+  getDailyRecommendation,
+  saveDailyRecommendation
+} from "@/lib/local-storage";
 import { generateDailyRecommendations } from "@/lib/food-recommendations-new";
 import MealCard from "@/components/meal-card";
 import BottomNavigation from "@/components/bottom-navigation";
@@ -15,35 +18,49 @@ import { useLanguage } from "@/hooks/use-language";
 import type { User, DailyRecommendation, WeightEntry, Mood, Goal, MealRecommendation } from "@shared/schema";
 
 export default function Home() {
-  const queryClient = useQueryClient();
   const { language } = useLanguage();
   const [user, setUser] = useState<User | null>(null);
   const [currentDate] = useState(() => new Date().toISOString().split('T')[0]);
+  const [latestWeight, setLatestWeight] = useState<WeightEntry | null>(null);
+  const [todayRecommendations, setTodayRecommendations] = useState<DailyRecommendation | null>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
+  // Load user and data from localStorage
   useEffect(() => {
     const userData = getUserFromLocalStorage();
     setUser(userData);
-  }, []);
 
-  // Fetch latest weight
-  const { data: latestWeight } = useQuery<WeightEntry>({
-    queryKey: ['/api/users', user?.id, 'latest-weight'],
-    enabled: !!user?.id,
-  });
+    if (userData) {
+      // Load latest weight
+      const weight = getLatestWeight(userData.id);
+      setLatestWeight(weight);
 
-  // Fetch today's recommendations
-  const { data: todayRecommendations, isLoading: recommendationsLoading } = useQuery<DailyRecommendation>({
-    queryKey: ['/api/users', user?.id, 'recommendations', currentDate],
-    enabled: !!user?.id,
-  });
+      // Load today's recommendations
+      const recommendations = getDailyRecommendation(userData.id, currentDate);
+      setTodayRecommendations(recommendations);
 
-  // Generate recommendations mutation
-  const generateRecommendationsMutation = useMutation({
-    mutationFn: async () => {
-      if (!user) throw new Error('No user found');
-      
-      const recommendations = generateDailyRecommendations((user.currentMood as Mood) || 'neutral', user.goal as Goal);
-      
+      setIsLoading(false);
+    }
+  }, [currentDate]);
+
+  // Generate recommendations if none exist
+  useEffect(() => {
+    if (user && !todayRecommendations && !isLoading && !isGenerating) {
+      handleGenerateRecommendations();
+    }
+  }, [user, todayRecommendations, isLoading]);
+
+  const handleGenerateRecommendations = () => {
+    if (!user) return;
+
+    setIsGenerating(true);
+    try {
+      const recommendations = generateDailyRecommendations(
+        (user.currentMood as Mood) || 'neutral',
+        user.goal as Goal
+      );
+
       const dailyRecommendation = {
         userId: user.id,
         date: currentDate,
@@ -56,31 +73,25 @@ export default function Home() {
         totalFiber: recommendations.totalFiber,
       };
 
-      const response = await apiRequest('POST', `/api/users/${user.id}/recommendations`, dailyRecommendation);
-      return response.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/users', user?.id, 'recommendations', currentDate] });
+      // Save to localStorage
+      const saved = saveDailyRecommendation(dailyRecommendation);
+      setTodayRecommendations(saved);
+
       toast({
         title: t('menuUpdated'),
         description: t('newRecommendationsGenerated'),
       });
-    },
-    onError: () => {
+    } catch (error) {
+      console.error('[Home] Error generating recommendations:', error);
       toast({
         title: t('error'),
         description: t('errorUpdatingMenu'),
         variant: "destructive",
       });
+    } finally {
+      setIsGenerating(false);
     }
-  });
-
-  // Generate initial recommendations if none exist
-  useEffect(() => {
-    if (user && !todayRecommendations && !recommendationsLoading && !generateRecommendationsMutation.isPending) {
-      generateRecommendationsMutation.mutate();
-    }
-  }, [user, todayRecommendations, recommendationsLoading]);
+  };
 
   if (!user) {
     return (
@@ -159,19 +170,19 @@ export default function Home() {
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <h3 className="text-xl lg:text-2xl font-bold text-slate-800">{t('todaysMenu')}</h3>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    onClick={() => generateRecommendationsMutation.mutate()}
-                    disabled={generateRecommendationsMutation.isPending}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleGenerateRecommendations}
+                    disabled={isGenerating}
                     className="text-primary font-medium"
                   >
-                    <RotateCcw className={`h-4 w-4 mr-1 ${generateRecommendationsMutation.isPending ? 'animate-spin' : ''}`} />
+                    <RotateCcw className={`h-4 w-4 mr-1 ${isGenerating ? 'animate-spin' : ''}`} />
 {t('updateMenu')}
                   </Button>
                 </div>
 
-                {recommendationsLoading || generateRecommendationsMutation.isPending ? (
+                {isLoading || isGenerating ? (
                   <div className="space-y-4">
                     {[1, 2, 3].map((i) => (
                       <div key={i} className="bg-white rounded-xl border border-slate-200 p-4">
@@ -232,9 +243,10 @@ export default function Home() {
                   <Card>
                     <CardContent className="p-6 text-center">
                       <p className="text-slate-600">{t('noRecommendations')}</p>
-                      <Button 
-                        onClick={() => generateRecommendationsMutation.mutate()}
+                      <Button
+                        onClick={handleGenerateRecommendations}
                         className="mt-4"
+                        disabled={isGenerating}
                       >
 {t('generateRecommendations')}
                       </Button>
