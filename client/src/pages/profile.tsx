@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useMutation } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,10 +8,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { User, ArrowLeft, Settings, Globe, Trash2, Edit3, Save, X } from 'lucide-react';
 import BottomNavigation from '@/components/bottom-navigation';
-import { getUserFromLocalStorage, saveUserToLocalStorage, clearUserFromLocalStorage } from '@/lib/local-storage';
+import { getUserFromLocalStorage, updateUserInLocalStorage, clearUserFromLocalStorage } from '@/lib/local-storage';
 import { useLocation } from 'wouter';
 import { useToast } from '@/hooks/use-toast';
-import { apiRequest } from '@/lib/queryClient';
 import { t, languages } from '@/lib/i18n';
 import { useLanguage } from '@/hooks/use-language';
 import type { Goal, Mood } from '@shared/schema';
@@ -61,33 +59,10 @@ export default function Profile() {
     }
   }, [user, navigate]);
 
-  const updateUserMutation = useMutation({
-    mutationFn: async (userData: any) => {
-      const response = await apiRequest('PATCH', `/api/users/${user!.id}`, userData);
-      return response.json();
-    },
-    onSuccess: (updatedUser) => {
-      saveUserToLocalStorage(updatedUser);
-      setUser(updatedUser);
-      setIsEditing(false);
-      toast({
-        title: t('profileUpdated'),
-        description: t('profileUpdated'),
-      });
-    },
-    onError: () => {
-      toast({
-        title: t('error'),
-        description: t('errorUpdatingProfile'),
-        variant: "destructive",
-      });
-    }
-  });
-
   const handleSaveChanges = () => {
     const height = parseInt(editForm.height);
     const goalWeight = parseFloat(editForm.goalWeight);
-    
+
     if (height < 100 || height > 250) {
       toast({
         title: t('error'),
@@ -106,13 +81,32 @@ export default function Profile() {
       return;
     }
 
-    updateUserMutation.mutate({
-      name: editForm.name,
-      height,
-      goalWeight,
-      goal: editForm.goal,
-      currentMood: editForm.currentMood
-    });
+    try {
+      // Update user in localStorage
+      const updatedUser = updateUserInLocalStorage({
+        name: editForm.name,
+        height,
+        goalWeight,
+        goal: editForm.goal,
+        currentMood: editForm.currentMood
+      });
+
+      if (updatedUser) {
+        setUser(updatedUser);
+        setIsEditing(false);
+        toast({
+          title: t('profileUpdated'),
+          description: t('profileUpdated'),
+        });
+      }
+    } catch (error) {
+      console.error('[Profile] Error updating profile:', error);
+      toast({
+        title: t('error'),
+        description: t('errorUpdatingProfile'),
+        variant: "destructive",
+      });
+    }
   };
 
   const handleLanguageChange = (newLanguage: string) => {

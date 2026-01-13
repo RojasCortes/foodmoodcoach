@@ -1,53 +1,42 @@
 import { useState, useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Calendar, Utensils, ArrowLeft, Clock, TrendingUp, TrendingDown } from 'lucide-react';
 import BottomNavigation from '@/components/bottom-navigation';
-import { getUserFromLocalStorage } from '@/lib/local-storage';
+import { getUserFromLocalStorage, getWeightEntries, getRecommendationsHistory } from '@/lib/local-storage';
 import { useLocation } from 'wouter';
 import { format, subDays } from 'date-fns';
 import { t, formatDate, formatShortDate } from '@/lib/i18n';
 import { useLanguage } from '@/hooks/use-language';
 import { getTranslatedRecipe } from '@/lib/recipe-translations';
-import type { DailyRecommendation, MealRecommendation } from '@shared/schema';
+import type { DailyRecommendation, MealRecommendation, WeightEntry } from '@shared/schema';
 
 export default function History() {
   const [, navigate] = useLocation();
   const { language } = useLanguage();
   const [user, setUser] = useState(getUserFromLocalStorage());
-  
+  const [weightEntries, setWeightEntries] = useState<WeightEntry[]>([]);
+  const [recommendationsHistory, setRecommendationsHistory] = useState<DailyRecommendation[]>([]);
+  const [weightLoading, setWeightLoading] = useState(true);
+  const [recommendationsLoading, setRecommendationsLoading] = useState(true);
+
   useEffect(() => {
     if (!user) {
       navigate('/');
+      return;
     }
+
+    // Load weight entries from localStorage
+    const entries = getWeightEntries(user.id);
+    setWeightEntries(entries);
+    setWeightLoading(false);
+
+    // Load recommendations history from localStorage
+    const recommendations = getRecommendationsHistory(user.id, 7);
+    setRecommendationsHistory(recommendations);
+    setRecommendationsLoading(false);
   }, [user, navigate]);
-
-  // Fetch weight history
-  const { data: weightEntries = [], isLoading: weightLoading } = useQuery({
-    queryKey: ['/api/users', user?.id, 'weight-entries'],
-    enabled: !!user?.id
-  });
-
-  // Fetch recommendations history for last 7 days
-  const { data: recommendationsHistory = [], isLoading: recommendationsLoading } = useQuery<Array<{ date: string; recommendation: DailyRecommendation | null }>>({
-    queryKey: ['/api/users', user?.id, 'recommendations-history'],
-    queryFn: async () => {
-      const promises = [];
-      for (let i = 0; i < 7; i++) {
-        const date = format(subDays(new Date(), i), 'yyyy-MM-dd');
-        promises.push(
-          fetch(`/api/users/${user!.id}/recommendations/${date}`)
-            .then(res => res.ok ? res.json() : null)
-            .then(data => ({ date, recommendation: data as DailyRecommendation | null }))
-            .catch(() => ({ date, recommendation: null }))
-        );
-      }
-      return Promise.all(promises);
-    },
-    enabled: !!user?.id
-  });
 
   if (!user) return null;
 
