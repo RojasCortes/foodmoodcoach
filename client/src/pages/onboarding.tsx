@@ -6,10 +6,8 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useLocation } from "wouter";
 import { Utensils, Heart } from "lucide-react";
-import { useMutation } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
 import { toast } from "@/hooks/use-toast";
-import { saveUserToLocalStorage } from "@/lib/local-storage";
+import { createUser } from "@/lib/local-storage";
 import { t } from "@/lib/i18n";
 import { useLanguage } from "@/hooks/use-language";
 import type { InsertUser, Mood, Goal } from "@shared/schema";
@@ -36,6 +34,7 @@ function getGoals() {
 export default function Onboarding() {
   const [, navigate] = useLocation();
   const { language } = useLanguage();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     height: '',
@@ -47,45 +46,9 @@ export default function Onboarding() {
   const moods = getMoods();
   const goals = getGoals();
 
-  const createUserMutation = useMutation({
-    mutationFn: async (userData: InsertUser) => {
-      console.log('[Onboarding] Sending user data:', userData);
-      try {
-        const response = await apiRequest('POST', '/api/users', userData);
-        const result = await response.json();
-        console.log('[Onboarding] User created successfully:', result);
-        return result;
-      } catch (error) {
-        console.error('[Onboarding] Error creating user:', error);
-        throw error;
-      }
-    },
-    onSuccess: (user) => {
-      console.log('[Onboarding] Success, saving to localStorage');
-      saveUserToLocalStorage(user);
-      toast({
-        title: t('profileCreated'),
-        description: t('profileCreated'),
-      });
-      // Navigate to home and force a reload to ensure proper state update
-      setTimeout(() => {
-        navigate('/');
-        window.location.reload();
-      }, 1000);
-    },
-    onError: (error: any) => {
-      console.error('[Onboarding] Mutation error:', error);
-      toast({
-        title: t('error'),
-        description: t('errorCreatingProfile') + ': ' + (error?.message || 'Unknown error'),
-        variant: "destructive",
-      });
-    }
-  });
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.name || !formData.height || !formData.weight || !formData.goal || !formData.mood) {
       toast({
         title: t('requiredFields'),
@@ -97,7 +60,7 @@ export default function Onboarding() {
 
     const height = parseInt(formData.height);
     const weight = parseFloat(formData.weight);
-    
+
     if (height < 100 || height > 250) {
       toast({
         title: t('error'),
@@ -116,26 +79,51 @@ export default function Onboarding() {
       return;
     }
 
-    // Calculate goal weight based on BMI recommendations
-    const bmi = weight / ((height / 100) ** 2);
-    let goalWeight = weight;
-    
-    if (formData.goal === 'lose') {
-      goalWeight = Math.max(weight * 0.9, (height / 100) ** 2 * 22); // 10% loss or healthy BMI
-    } else if (formData.goal === 'gain') {
-      goalWeight = Math.min(weight * 1.1, (height / 100) ** 2 * 24); // 10% gain or healthy BMI
+    setIsSubmitting(true);
+
+    try {
+      // Calculate goal weight based on BMI recommendations
+      const bmi = weight / ((height / 100) ** 2);
+      let goalWeight = weight;
+
+      if (formData.goal === 'lose') {
+        goalWeight = Math.max(weight * 0.9, (height / 100) ** 2 * 22); // 10% loss or healthy BMI
+      } else if (formData.goal === 'gain') {
+        goalWeight = Math.min(weight * 1.1, (height / 100) ** 2 * 24); // 10% gain or healthy BMI
+      }
+
+      const userData: InsertUser = {
+        name: formData.name,
+        height,
+        initialWeight: weight,
+        goalWeight,
+        goal: formData.goal,
+        currentMood: formData.mood
+      };
+
+      // Create user directly in localStorage (offline mode)
+      console.log('[Onboarding] Creating user offline:', userData);
+      createUser(userData);
+
+      toast({
+        title: t('profileCreated'),
+        description: t('profileCreated'),
+      });
+
+      // Navigate to home
+      setTimeout(() => {
+        navigate('/');
+        window.location.reload();
+      }, 500);
+    } catch (error) {
+      console.error('[Onboarding] Error creating user:', error);
+      toast({
+        title: t('error'),
+        description: t('errorCreatingProfile'),
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
     }
-
-    const userData: InsertUser = {
-      name: formData.name,
-      height,
-      initialWeight: weight,
-      goalWeight,
-      goal: formData.goal,
-      currentMood: formData.mood
-    };
-
-    createUserMutation.mutate(userData);
   };
 
   return (
@@ -263,12 +251,12 @@ export default function Onboarding() {
             </CardContent>
           </Card>
 
-          <Button 
-            type="submit" 
+          <Button
+            type="submit"
             className="w-full py-4 text-lg font-semibold"
-            disabled={createUserMutation.isPending}
+            disabled={isSubmitting}
           >
-            {createUserMutation.isPending ? (
+            {isSubmitting ? (
               <>
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
                 {t('creatingProfile')}
