@@ -36,12 +36,10 @@ export function getApiBaseUrl(): string {
 export function buildApiUrl(path: string): string {
   const baseUrl = getApiBaseUrl();
   const fullUrl = `${baseUrl}${path}`;
-  console.log('[API Config] Building URL:', {
-    isNative: Capacitor.isNativePlatform(),
-    platform: Capacitor.getPlatform(),
-    baseUrl,
-    path,
-    fullUrl
-  });
+  // Log as string for better visibility in Android LogCat
+  console.log(`[API Config] isNative: ${Capacitor.isNativePlatform()}, platform: ${Capacitor.getPlatform()}`);
+  console.log(`[API Config] baseUrl: ${baseUrl}`);
+  console.log(`[API Config] path: ${path}`);
+  console.log(`[API Config] fullUrl: ${fullUrl}`);
   return fullUrl;
 }
