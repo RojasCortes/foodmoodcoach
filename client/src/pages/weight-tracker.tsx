@@ -5,10 +5,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Utensils, Plus, TrendingDown, TrendingUp } from "lucide-react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
 import { toast } from "@/hooks/use-toast";
-import { getUserFromLocalStorage } from "@/lib/local-storage";
+import { getUserFromLocalStorage, getWeightEntries, addWeightEntry } from "@/lib/local-storage";
 import BottomNavigation from "@/components/bottom-navigation";
 import WeightChart from "@/components/weight-chart";
 import AdSpace from "@/components/ad-space";
@@ -17,55 +15,29 @@ import { useLanguage } from "@/hooks/use-language";
 import type { User, WeightEntry } from "@shared/schema";
 
 export default function WeightTracker() {
-  const queryClient = useQueryClient();
   const { language } = useLanguage();
   const [user, setUser] = useState<User | null>(null);
   const [isAddWeightOpen, setIsAddWeightOpen] = useState(false);
   const [newWeight, setNewWeight] = useState('');
+  const [weightEntries, setWeightEntries] = useState<WeightEntry[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
 
+  // Load user and weight entries from localStorage
   useEffect(() => {
     const userData = getUserFromLocalStorage();
     setUser(userData);
-  }, []);
 
-  // Fetch weight entries
-  const { data: weightEntries = [], isLoading } = useQuery<WeightEntry[]>({
-    queryKey: ['/api/users', user?.id, 'weight-entries'],
-    enabled: !!user?.id,
-  });
-
-  // Add weight mutation
-  const addWeightMutation = useMutation({
-    mutationFn: async (weight: number) => {
-      if (!user) throw new Error('No user found');
-      
-      const response = await apiRequest('POST', `/api/users/${user.id}/weight-entries`, {
-        weight
-      });
-      return response.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/users', user?.id, 'weight-entries'] });
-      queryClient.invalidateQueries({ queryKey: ['/api/users', user?.id, 'latest-weight'] });
-      setIsAddWeightOpen(false);
-      setNewWeight('');
-      toast({
-        title: t('weightAdded'),
-        description: t('weightAdded'),
-      });
-    },
-    onError: () => {
-      toast({
-        title: t('error'),
-        description: t('errorAddingWeight'),
-        variant: "destructive",
-      });
+    if (userData) {
+      const entries = getWeightEntries(userData.id);
+      setWeightEntries(entries);
+      setIsLoading(false);
     }
-  });
+  }, []);
 
   const handleAddWeight = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     const weight = parseFloat(newWeight);
     if (isNaN(weight) || weight < 30 || weight > 300) {
       toast({
@@ -76,7 +48,34 @@ export default function WeightTracker() {
       return;
     }
 
-    addWeightMutation.mutate(weight);
+    if (!user) return;
+
+    setIsSaving(true);
+    try {
+      // Add weight entry to localStorage
+      const newEntry = addWeightEntry(user.id, weight);
+
+      // Reload entries
+      const updatedEntries = getWeightEntries(user.id);
+      setWeightEntries(updatedEntries);
+
+      setIsAddWeightOpen(false);
+      setNewWeight('');
+
+      toast({
+        title: t('weightAdded'),
+        description: t('weightAdded'),
+      });
+    } catch (error) {
+      console.error('[WeightTracker] Error adding weight:', error);
+      toast({
+        title: t('error'),
+        description: t('errorAddingWeight'),
+        variant: "destructive",
+      });
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   if (!user) {
@@ -154,12 +153,12 @@ export default function WeightTracker() {
                   >
 {t('cancel')}
                   </Button>
-                  <Button 
-                    type="submit" 
+                  <Button
+                    type="submit"
                     className="flex-1"
-                    disabled={addWeightMutation.isPending}
+                    disabled={isSaving}
                   >
-{addWeightMutation.isPending ? t('saving') : t('save')}
+{isSaving ? t('saving') : t('save')}
                   </Button>
                 </div>
               </form>
