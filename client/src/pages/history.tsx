@@ -106,19 +106,19 @@ export default function History() {
                 </div>
               ) : (
                 <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
-                  {recommendationsHistory.map(({ date, recommendation }) => {
-                    const meals = recommendation ? [
+                  {recommendationsHistory.map((recommendation) => {
+                    const meals = [
                       { type: 'breakfast', data: recommendation.breakfast },
                       { type: 'lunch', data: recommendation.lunch },
                       { type: 'dinner', data: recommendation.dinner }
-                    ].filter(m => m.data) : [];
+                    ].filter(m => m.data);
 
                     return (
-                      <Card key={date} className="hover:shadow-md transition-shadow">
+                      <Card key={recommendation.date} className="hover:shadow-md transition-shadow">
                         <CardHeader className="pb-3">
                           <CardTitle className="text-lg flex items-center gap-2">
                             <Calendar className="h-4 w-4 text-primary" />
-                            {formatDate(new Date(date))}
+                            {formatDate(new Date(recommendation.date))}
                           </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-3">
@@ -128,17 +128,17 @@ export default function History() {
                             meals.map((meal, index) => {
                               const rec = meal.data as MealRecommendation;
                               // Get translated recipe if recipeKey exists
-                              const translatedRecipe = rec.recipeKey 
-                                ? getTranslatedRecipe(rec.recipeKey, language) 
+                              const translatedRecipe = rec.recipeKey
+                                ? getTranslatedRecipe(rec.recipeKey, language)
                                 : null;
                               const displayName = translatedRecipe?.name || rec.name || (rec as any).dishName;
                               const displayBenefits = translatedRecipe?.benefits || rec.benefits;
-                              
+
                               return (
                                 <div key={index} className="p-3 bg-slate-50 rounded-lg">
                                   <div className="flex items-center justify-between mb-2">
                                     <span className="font-medium text-primary capitalize">
-                                      {meal.type === 'breakfast' ? t('breakfast') : 
+                                      {meal.type === 'breakfast' ? t('breakfast') :
                                        meal.type === 'lunch' ? t('lunch') : t('dinner')}
                                     </span>
                                     <Clock className="h-3 w-3 text-slate-400" />
